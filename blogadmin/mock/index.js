@@ -3,10 +3,12 @@ import { param2Obj } from '../src/utils'
 
 import user from './user'
 import table from './table'
+import article from './article'
 
 const mocks = [
   ...user,
-  ...table
+  ...table,
+  ...article
 ]
 
 // for front mock
@@ -53,7 +55,7 @@ export function mockXHR() {
 // for mock server
 const responseFake = (url, type, respond) => {
   return {
-    url: new RegExp(`/mock${url}`),
+    url: new RegExp(`/mock/${url}`),
     type: type || 'get',
     response(req, res) {
       res.json(Mock.mock(respond instanceof Function ? respond(req, res) : respond))

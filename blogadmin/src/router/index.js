@@ -159,6 +159,29 @@ export const constantRoutes = [
     ]
   },
 
+  {
+    path: '/article',
+    component: Layout,
+    meta: {
+      title: '文章管理', icon: 'link'
+    },
+    // redirect: '/article/list',
+    children: [
+      {
+        path: '',
+        name: 'Index',
+        component: () => import('@/views/article/index'),
+        meta: { title: '文章列表', icon: 'nested' }
+      },
+      {
+        path: 'write',
+        name: 'Write',
+        component: () => import('@/views/article/write'),
+        meta: { title: '写文章', icon: 'form' }
+      }
+    ]
+  },
+
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]
