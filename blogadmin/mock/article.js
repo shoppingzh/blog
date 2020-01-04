@@ -4,10 +4,11 @@ import lodash from 'lodash'
 import { page } from './util'
 
 const all = Mock.mock({
-  'data|666': [{
+  'data|2': [{
     'id|+1': 1,
     'title|3-5': /\w\W\s\S\d\D/,
     'summary|5': /\w{15}/,
+    'content|5-30': /\w{30}/,
     'createTime': '@datetime'
   }]
 })
@@ -31,6 +32,24 @@ export default [
       const id = conf.query.id
       lodash.remove(all.data, (obj) => {
         return obj.id == id
+      })
+      return {
+        success: true,
+        code: 20000,
+        data: null
+      }
+    }
+  },
+  {
+    url: '/article/save',
+    type: 'post',
+    response(conf) {
+      all.data.unshift({
+        id: '11',
+        title: conf.query.title,
+        summary: conf.query.content.slice(0, 75),
+        content: conf.query.content,
+        createTime: new Date()
       })
       return {
         success: true,

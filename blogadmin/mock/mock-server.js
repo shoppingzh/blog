@@ -34,6 +34,10 @@ module.exports = app => {
 
   const router = express.Router()
 
+  router.all('*').then((req, resp) => {
+    window.console.log(resp)
+  })
+
   // parse app.body
   // https://expressjs.com/en/4x/api.html#req.body
   // app.use(bodyParser.json())

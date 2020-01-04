@@ -107,6 +107,13 @@ export default {
         // nothing
       })
     },
+    // 看文章
+    view() {
+      this.$message({
+        message: '暂不支持查看',
+        type: 'error'
+      })
+    },
     // 写文章
     write() {
       this.$router.push({ path: '/article/write' })

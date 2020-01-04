@@ -17,3 +17,11 @@ export function remove(id) {
     }
   })
 }
+
+export function save(params){
+  return request({
+    url: '/article/save',
+    method: 'post',
+    params
+  })
+}
