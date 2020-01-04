@@ -19,6 +19,7 @@ import load from './dynamicLoadScript'
 
 // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
 const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
+const tinymceLangCDN = 'https://cdn.jsdelivr.net/npm/tinymce-i18n@19.9.17/langs/zh_CN.js'
 
 export default {
   name: 'Tinymce',
@@ -43,7 +44,7 @@ export default {
     },
     menubar: {
       type: String,
-      default: 'file edit insert view format table'
+      default: '' //'file edit insert view format table'
     },
     height: {
       type: [Number, String],
@@ -109,14 +110,16 @@ export default {
           this.$message.error(err.message)
           return
         }
-        this.initTinymce()
+        load(tinymceLangCDN, () => {
+          this.initTinymce()
+        })
       })
     },
     initTinymce() {
       const _this = this
       window.tinymce.init({
         selector: `#${this.tinymceId}`,
-        language: this.languageTypeList['zh-CN'],
+        language: this.languageTypeList['zh_CN'],
         height: this.height,
         body_class: 'panel-body ',
         object_resizing: false,
@@ -198,6 +201,9 @@ export default {
     },
     getContent() {
       window.tinymce.get(this.tinymceId).getContent()
+    },
+    getPlainContent() {
+      return window.tinymce.get(this.tinymceId).getContent({ format: 'text' });
     },
     imageSuccessCBK(arr) {
       const _this = this

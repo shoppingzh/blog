@@ -18,10 +18,10 @@ export function remove(id) {
   })
 }
 
-export function save(params){
+export function save(data){
   return request({
     url: '/article/save',
     method: 'post',
-    params
+    data
   })
 }

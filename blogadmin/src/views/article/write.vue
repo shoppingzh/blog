@@ -8,6 +8,7 @@
         class="title-input" />
     </el-row>
     <tinymce
+      ref="editor"
       v-model="content"
       :height="400"></tinymce>
     <el-row
@@ -33,8 +34,7 @@ export default {
   data() {
     return {
       title: '',
-      content: `
-      `,
+      content: '',
       loading: false
     }
   },
@@ -43,7 +43,8 @@ export default {
       this.loading = true;
       save({
         title: this.title,
-        content: this.content
+        content: this.content,
+        plainContent: this.$refs.editor.getPlainContent()
       }).then(resp => {
         if(resp.success){
           this.$message({

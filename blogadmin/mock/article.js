@@ -18,10 +18,11 @@ export default [
     url: '/article/list',
     type: 'get',
     response: conf => {
+      var data = all.data.slice(0).reverse()
       return {
         success: true,
         code: 20000,
-        data: page(all.data, conf.query)
+        data: page(data, conf.query)
       }
     }
   },
@@ -44,11 +45,13 @@ export default [
     url: '/article/save',
     type: 'post',
     response(conf) {
-      all.data.unshift({
-        id: '11',
-        title: conf.query.title,
-        summary: conf.query.content.slice(0, 75),
-        content: conf.query.content,
+      var data = all.data
+      var last = data[data.length - 1]
+      all.data.push({
+        id: last ? (last.id + 1) : 1,
+        title: conf.body.title,
+        summary: conf.body.plainContent.slice(0, 75) + '...',
+        content: conf.body.content,
         createTime: new Date()
       })
       return {

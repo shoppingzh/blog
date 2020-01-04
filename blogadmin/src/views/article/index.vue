@@ -13,6 +13,12 @@
         </template>
       </el-table-column>
       <el-table-column
+        label="ID"
+        width="80"
+        align="center"
+        prop="id"
+      />
+      <el-table-column
         label="标题"
         prop="title"
       />
@@ -41,7 +47,7 @@
           <el-button
             size="mini"
             type="primary"
-            @click="view(scope)"> 查看
+            @click="current = scope.row; viewCurrent = true;"> 查看
           </el-button>
           <el-button
             size="mini"
@@ -62,6 +68,12 @@
         />
       </el-col>
     </el-row>
+
+    <el-dialog
+      title="看文章"
+      :visible.sync="viewCurrent" >
+      <div v-html="current ? current.content : ''" style="word-break: break-all;"></div>
+    </el-dialog>
   </div>
 </template>
 
@@ -73,7 +85,9 @@ export default {
   data() {
     return {
       page: {},
-      pageSize: 15
+      pageSize: 15,
+      viewCurrent: false,
+      current: null
     }
   },
   mounted() {
