@@ -3,17 +3,17 @@
 
 
 
-### blogserver
+## blogserver
 博客后端
 
-***
-
-### blogadmin
+## blogadmin
 博客管理后台
 
-***
+### 技术点
+- 富文本编辑器
+- 表单校验
 
-### blogmobile
+
+## blogmobile
 博客移动端
 
-***

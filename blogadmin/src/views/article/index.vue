@@ -5,14 +5,6 @@
       :data="page.list"
       fit>
       <el-table-column
-        label="序号"
-        width="60"
-        align="center">
-        <template slot-scope="scope">
-          {{ (page.page - 1) * pageSize + scope.$index + 1 }}
-        </template>
-      </el-table-column>
-      <el-table-column
         label="ID"
         width="80"
         align="center"
@@ -32,6 +24,15 @@
           {{ scope.row.createTime }}
         </template>
       </el-table-column>
+      <el-table-column
+        label="状态"
+        width="120"
+        align="center">
+        <template slot-scope="scope">
+          <el-tag v-if="!scope.row.draft" type="success">已发布</el-tag>
+          <el-tag v-else type="info">草稿</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column>
         <template slot="header">
           <div>
@@ -46,8 +47,14 @@
         <template slot-scope="scope">
           <el-button
             size="mini"
-            type="primary"
+            type="info"
             @click="current = scope.row; viewCurrent = true;"> 查看
+          </el-button>
+          <el-button
+            size="mini"
+            type="primary"
+            @click="edit(scope)">
+            编辑
           </el-button>
           <el-button
             size="mini"
@@ -127,6 +134,10 @@ export default {
         message: '暂不支持查看',
         type: 'error'
       })
+    },
+    // 编辑文章
+    edit(scope) {
+      this.$router.push({ path: `/article/write`, query: { id: scope.row.id } })
     },
     // 写文章
     write() {
