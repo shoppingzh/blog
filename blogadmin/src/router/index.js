@@ -51,44 +51,44 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '控制台', icon: 'dashboard' }
     }]
   },
 
-  {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: '/example/table',
+  //   name: 'Example',
+  //   meta: { title: 'Example', icon: 'example' },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: () => import('@/views/table/index'),
+  //       meta: { title: 'Table', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { title: 'Tree', icon: 'tree' }
+  //     }
+  //   ]
+  // },
 
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
-      }
-    ]
-  },
+  // {
+  //   path: '/form',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Form',
+  //       component: () => import('@/views/form/index'),
+  //       meta: { title: 'Form', icon: 'form' }
+  //     }
+  //   ]
+  // },
 
   // {
   //   path: '/nested',
@@ -153,8 +153,8 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        path: 'https://panjiachen.gitee.io/vue-element-admin-site/zh/',
+        meta: { title: 'vue-element-admin', icon: 'link' }
       }
     ]
   },
@@ -163,15 +163,14 @@ export const constantRoutes = [
     path: '/article',
     component: Layout,
     meta: {
-      title: '文章管理', icon: 'link'
+      title: '文章管理', icon: 'article'
     },
-    // redirect: '/article/list',
     children: [
       {
         path: '',
         name: 'Index',
         component: () => import('@/views/article/index'),
-        meta: { title: '文章列表', icon: 'nested' }
+        meta: { title: '文章列表', icon: 'article' }
       },
       {
         path: 'write',
@@ -179,6 +178,32 @@ export const constantRoutes = [
         props: true,
         component: () => import('@/views/article/write'),
         meta: { title: '写文章', icon: 'form' }
+      },
+      {
+        path: 'view/:id?',
+        name: 'View',
+        props: true,
+        hidden: true,
+        component: () => import('@/views/article/view'),
+        meta: { title: '文章' }
+      }
+    ]
+  },
+
+  {
+    path: '/tag',
+    component: Layout,
+    meta: {
+      title: '标签管理',
+      icon: 'tags'
+    },
+    redirect: '',
+    children: [
+      {
+        path: '',
+        name: 'Index',
+        hidden: true,
+        component: () => import('@/views/tag/index')
       }
     ]
   },

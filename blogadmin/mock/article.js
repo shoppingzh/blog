@@ -1,18 +1,22 @@
 /* eslint-disable no-return-assign */
-import Mock from 'mockjs'
+// import Mock from 'mockjs'
 import lodash from 'lodash'
-import { page } from './util'
+import util from './util'
 
-const all = Mock.mock({
-  'data|2': [{
-    'id|+1': 1,
-    'title|3-5': /\w\W\s\S\d\D/,
-    'summary|5': /\w{15}/,
-    'content|5-30': /\w{30}/,
-    'createTime': '@datetime',
-    'draft|2-5': true
-  }]
-})
+// const all = Mock.mock({
+//   'data|2': [{
+//     'id|+1': 1,
+//     'title|3-5': /\w{5}\s?/,
+//     'summary|5': /\w{15}/,
+//     'content|5-30': /\w{30}/,
+//     'createTime': '@datetime',
+//     'draft|2-5': true
+//   }]
+// })
+
+const all = {
+  data: []
+}
 
 export default [
   {
@@ -23,7 +27,7 @@ export default [
       return {
         success: true,
         code: 20000,
-        data: page(data, conf.query)
+        data: util.page(data, conf.query)
       }
     }
   },
@@ -32,7 +36,7 @@ export default [
     type: 'get',
     response(conf) {
       const article = all.data.find((obj) => {
-        return obj.id == conf.query.id
+        return obj.id === parseInt(conf.query.id)
       })
       if (!article) {
         return {
@@ -54,7 +58,7 @@ export default [
     response(conf) {
       const id = conf.query.id
       lodash.remove(all.data, (obj) => {
-        return obj.id == id
+        return obj.id === parseInt(id)
       })
       return {
         success: true,
@@ -71,7 +75,7 @@ export default [
       let article
       if (conf.body.id) {
         article = data.find((obj) => {
-          return obj.id == conf.body.id
+          return obj.id === parseInt(conf.body.id)
         })
       }
       if (article) {
@@ -85,7 +89,8 @@ export default [
           title: conf.body.title,
           summary: conf.body.plainContent.slice(0, 75) + '...',
           content: conf.body.content,
-          createTime: new Date()
+          createTime: new Date(),
+          draft: false
         })
       }
       return {

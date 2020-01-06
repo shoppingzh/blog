@@ -2,7 +2,7 @@
   <div>
     <el-table
       border
-      :data="page.list"
+      :data="page.data"
       fit>
       <el-table-column
         label="ID"
@@ -48,7 +48,7 @@
           <el-button
             size="mini"
             type="info"
-            @click="current = scope.row; viewCurrent = true;"> 查看
+            @click="view(scope)"> 查看
           </el-button>
           <el-button
             size="mini"
@@ -75,12 +75,6 @@
         />
       </el-col>
     </el-row>
-
-    <el-dialog
-      title="看文章"
-      :visible.sync="viewCurrent" >
-      <div v-html="current ? current.content : ''" style="word-break: break-all;"></div>
-    </el-dialog>
   </div>
 </template>
 
@@ -112,7 +106,6 @@ export default {
       })
     },
     remove(scope) {
-      window.console.log(scope)
       this.$confirm('确定要删除吗？').then(() => {
         remove(scope.row.id).then((resp) => {
           if (resp.success) {
@@ -129,15 +122,12 @@ export default {
       })
     },
     // 看文章
-    view() {
-      this.$message({
-        message: '暂不支持查看',
-        type: 'error'
-      })
+    view(scope) {
+      this.$router.push({ path: `/article/view/${scope.row.id}` })
     },
     // 编辑文章
     edit(scope) {
-      this.$router.push({ path: `/article/write`, query: { id: scope.row.id } })
+      this.$router.push({ path: `/article/write`, query: { id: scope.row.id }})
     },
     // 写文章
     write() {

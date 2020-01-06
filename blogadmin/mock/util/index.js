@@ -1,17 +1,28 @@
 export function page(data, params) {
   let page = parseInt(params.page || '1')
-  let pageSize = parseInt(params.pageSize || '10')
+  const pageSize = parseInt(params.pageSize || '0')
   if (page <= 0) {
     page = 1
   }
-  if (pageSize < 0) {
-    pageSize = 10
-  }
   const begin = (page - 1) * pageSize
-  const end = begin + pageSize
   return {
     page: page,
     total: data.length,
-    list: (data || []).slice(begin, end)
+    pageSize: pageSize,
+    data: (data || []).slice(begin, pageSize > 0 ? begin + pageSize : data.length - 1)
   }
+}
+
+export function findById(data, id) {
+  if (!data) {
+    return null
+  }
+  return data.find((obj) => {
+    return obj.id === id
+  })
+}
+
+export default {
+  page,
+  findById
 }
