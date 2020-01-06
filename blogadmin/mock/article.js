@@ -2,6 +2,7 @@
 // import Mock from 'mockjs'
 import lodash from 'lodash'
 import util from './util'
+import { data as  tagData } from './tag'
 
 // const all = Mock.mock({
 //   'data|2': [{
@@ -24,10 +25,26 @@ export default [
     type: 'get',
     response: conf => {
       var data = all.data.slice(0).reverse()
+      const page = util.page(data, conf.query)
+      console.log(page)
+      if (page.data && page.data.length) {
+        page.data.forEach((obj) => {
+          const tags = []
+          if (obj.tagIds && obj.tagIds.length) {
+            obj.tagIds.forEach((tagId) => {
+              const tag = util.findById(tagData, tagId)
+              if (tag) {
+                tags.push(tag.name)
+              }
+            })
+            obj.tags = tags
+          }
+        })
+      }
       return {
         success: true,
         code: 20000,
-        data: util.page(data, conf.query)
+        data: page
       }
     }
   },
@@ -78,21 +95,43 @@ export default [
           return obj.id === parseInt(conf.body.id)
         })
       }
-      if (article) {
-        article.title = conf.body.title
-        article.content = conf.body.content
-        article.summary = conf.body.plainContent.slice(0, 75) + '...'
-      } else {
+      if (!article) {
         const last = data[data.length - 1]
-        all.data.push({
-          id: last ? (last.id + 1) : 1,
-          title: conf.body.title,
-          summary: conf.body.plainContent.slice(0, 75) + '...',
-          content: conf.body.content,
+        article = {
+          id: last ? last.id + 1 : 1,
           createTime: new Date(),
           draft: false
-        })
+        }
+        all.data.push(article)
       }
+
+      article.title = conf.body.title
+      article.summary = conf.body.plainContent.slice(0, 75) + '...'
+      article.content = conf.body.content
+
+      // 这里的tags为标签的name数组
+      const tags = conf.body.tags
+      if (tags && tags.length) {
+        const tagIds = []
+        // 遍历所有标签，如果标题与关联标签的标题一致，则直接使用，否则创建新标签
+        tags.forEach((tag) => {
+          let exist = tagData.find((obj) => {
+            return obj.name === tag
+          })
+          if (!exist) {
+            const lastTag = tagData[tagData.length - 1]
+            exist = {
+              id: lastTag ? lastTag.id + 1 : 1,
+              name: tag,
+              createTime: new Date()
+            }
+            tagData.push(exist)
+          }
+          tagIds.push(exist.id)
+        })
+        article.tagIds = tagIds
+      }
+
       return {
         success: true,
         code: 20000,

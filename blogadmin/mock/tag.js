@@ -2,23 +2,31 @@ import Mock from 'mockjs'
 import lodash from 'lodash'
 import util from './util'
 
-// const data = [
-//   {
-//     id: 1,
-//     name: '默认标签1'
-//   },
-//   {
-//     id: 2,
-//     name: '默认标签2'
-//   }
-// ]
+const data = [
+  {
+    id: 1,
+    name: 'vue'
+  },
+  {
+    id: 2,
+    name: 'vue router'
+  },
+  {
+    id: 3,
+    name: 'webpack'
+  }
+]
 
-const data = Mock.mock({
-  'data|100': [{
-    'id|+1': 1,
-    'name|1': /\w{5}\s?/
-  }]
-}).data
+// const data = Mock.mock({
+//   'data|100': [{
+//     'id|+1': 1,
+//     'name|1': /\w{5}\s?/
+//   }]
+// }).data
+
+export {
+  data
+}
 
 export default [
   {
@@ -111,4 +119,3 @@ export default [
     }
   }
 ]
-

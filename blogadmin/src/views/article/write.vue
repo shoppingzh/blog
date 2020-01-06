@@ -15,7 +15,7 @@
       :height="400" />
     <div class="other-container">
       <el-select
-        v-model="selectedTags"
+        v-model="article.tags"
         multiple
         filterable
         allow-create
@@ -58,10 +58,10 @@ export default {
       article: {
         id: '',
         title: '',
-        content: ''
+        content: '',
+        tags: []
       },
       tags: [],
-      selectedTags: [],
       loading: false
     }
   },
@@ -95,7 +95,8 @@ export default {
         id: this.article.id,
         title: this.article.title || '无标题文章',
         content: this.article.content,
-        plainContent: this.$refs.editor.getPlainContent()
+        plainContent: this.$refs.editor.getPlainContent(),
+        tags: this.article.tags
       }).then(resp => {
         if (resp.success) {
           this.$message({

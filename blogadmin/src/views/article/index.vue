@@ -25,6 +25,16 @@
         </template>
       </el-table-column>
       <el-table-column
+        label="标签">
+        <template slot-scope="scope">
+          <el-tag
+            v-for="tag in scope.row.tags" 
+            :key="tag"
+            type="info"
+            :style="{ marginRight: '5px', marginBottom: '3px'}">{{tag}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column
         label="状态"
         width="120"
         align="center">

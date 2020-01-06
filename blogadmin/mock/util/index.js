@@ -9,7 +9,7 @@ export function page(data, params) {
     page: page,
     total: data.length,
     pageSize: pageSize,
-    data: (data || []).slice(begin, pageSize > 0 ? begin + pageSize : data.length - 1)
+    data: (data || []).slice(begin, pageSize > 0 ? begin + pageSize : data.length)
   }
 }
 
