@@ -27,7 +27,7 @@ export default {
   },
   mounted() {
     console.log(this.$height)
-    get({ id: this.id }).then((resp) => {
+    get(this.id).then((resp) => {
       if (resp.success) {
         this.article = resp.data
       }

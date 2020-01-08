@@ -2,16 +2,15 @@ const chokidar = require('chokidar')
 const bodyParser = require('body-parser')
 const chalk = require('chalk')
 const path = require('path')
-const express = require('express')
 
 const mockDir = path.join(process.cwd(), 'mock')
 
-function registerRoutes(router) {
+function registerRoutes(app) {
   let mockLastIndex
   const { default: mocks } = require('./index.js')
   for (const mock of mocks) {
-    router[mock.type](mock.url, mock.response)
-    mockLastIndex = router.stack.length
+    app[mock.type](mock.url, mock.response)
+    mockLastIndex = app._router.stack.length
   }
   const mockRoutesLength = Object.keys(mocks).length
   return {
@@ -32,24 +31,16 @@ module.exports = app => {
   // es6 polyfill
   require('@babel/register')
 
-  const router = express.Router()
-
   // parse app.body
   // https://expressjs.com/en/4x/api.html#req.body
-  // app.use(bodyParser.json())
-  // app.use(bodyParser.urlencoded({
-  //   extended: true
-  // }))
-
-  router.use(bodyParser.json())
-  router.use(bodyParser.urlencoded({
+  app.use(bodyParser.json())
+  app.use(bodyParser.urlencoded({
     extended: true
   }))
 
-  const mockRoutes = registerRoutes(router)
+  const mockRoutes = registerRoutes(app)
   var mockRoutesLength = mockRoutes.mockRoutesLength
   var mockStartIndex = mockRoutes.mockStartIndex
-  app.use(/^\/mock/, router)
 
   // watch files, hot reload mock server
   chokidar.watch(mockDir, {
@@ -59,13 +50,12 @@ module.exports = app => {
     if (event === 'change' || event === 'add') {
       try {
         // remove mock routes stack
-        // app._router.stack.splice(mockStartIndex, mockRoutesLength)
-        router.stack.splice(mockStartIndex, mockRoutesLength)
+        app._router.stack.splice(mockStartIndex, mockRoutesLength)
 
         // clear routes cache
         unregisterRoutes()
 
-        const mockRoutes = registerRoutes(router)
+        const mockRoutes = registerRoutes(app)
         mockRoutesLength = mockRoutes.mockRoutesLength
         mockStartIndex = mockRoutes.mockStartIndex
 

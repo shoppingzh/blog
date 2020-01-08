@@ -1,4 +1,4 @@
-import Mock from 'mockjs'
+// import Mock from 'mockjs'
 import lodash from 'lodash'
 import util from './util'
 
@@ -30,7 +30,7 @@ export {
 
 export default [
   {
-    url: '/tag/list',
+    url: '/tag',
     type: 'get',
     response(conf) {
       const orderData = data.slice(0).reverse()
@@ -42,7 +42,7 @@ export default [
     }
   },
   {
-    url: '/tag/get',
+    url: '/tag/:id',
     type: 'get',
     response(conf) {
       if (!conf.query.id) {
@@ -61,7 +61,7 @@ export default [
     }
   },
   {
-    url: 'tag/save',
+    url: 'tag',
     type: 'post',
     response(conf) {
       const nameEntity = data.find((obj) => {
@@ -99,8 +99,8 @@ export default [
     }
   },
   {
-    url: '/tag/remove',
-    type: 'post',
+    url: '/tag',
+    type: 'delete',
     response(conf) {
       if (!conf.query.id) {
         return {

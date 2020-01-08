@@ -22,7 +22,23 @@ export function findById(data, id) {
   })
 }
 
+/**
+ * 从URL中提取参数
+ * 如使用正则表达式//article/\d+/gi从“/article/2”中提取参数“2”
+ * @param {String} url  URL
+ * @param {String} pattern 正则表达式
+ */
+export function extractParam(url, pattern, group) {
+  const regex = new RegExp(pattern, 'gi')
+  let result
+  while ((result = regex.exec(url)) !== null) {
+    return result[group]
+  }
+  return null
+}
+
 export default {
   page,
-  findById
+  findById,
+  extractParam
 }

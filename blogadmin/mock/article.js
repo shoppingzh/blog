@@ -1,32 +1,31 @@
 /* eslint-disable no-return-assign */
-// import Mock from 'mockjs'
+import Mock from 'mockjs'
 import lodash from 'lodash'
 import util from './util'
-import { data as  tagData } from './tag'
+import { data as tagData } from './tag'
 
-// const all = Mock.mock({
-//   'data|2': [{
-//     'id|+1': 1,
-//     'title|3-5': /\w{5}\s?/,
-//     'summary|5': /\w{15}/,
-//     'content|5-30': /\w{30}/,
-//     'createTime': '@datetime',
-//     'draft|2-5': true
-//   }]
-// })
+const all = Mock.mock({
+  'data|2': [{
+    'id|+1': 1,
+    'title|3-5': /\w{5}\s?/,
+    'summary|5': /\w{15}/,
+    'content|5-30': /\w{30}/,
+    'createTime': '@datetime',
+    'draft|2-5': true
+  }]
+})
 
-const all = {
-  data: []
-}
+// const all = {
+//   data: []
+// }
 
 export default [
   {
-    url: '/article/list',
+    url: '/article(\\?.*)?$',
     type: 'get',
     response: conf => {
       var data = all.data.slice(0).reverse()
       const page = util.page(data, conf.query)
-      console.log(page)
       if (page.data && page.data.length) {
         page.data.forEach((obj) => {
           const tags = []
@@ -49,17 +48,25 @@ export default [
     }
   },
   {
-    url: '/article/get',
+    url: '/article/(\\d+)?.*$',
     type: 'get',
     response(conf) {
+      const id = util.extractParam(conf.url, '/article/(\\d+)?.*$', 1)
+      if (!id) {
+        return {
+          success: false,
+          code: 20000,
+          msg: '参数错误'
+        }
+      }
       const article = all.data.find((obj) => {
-        return obj.id === parseInt(conf.query.id)
+        return obj.id === parseInt(id)
       })
       if (!article) {
         return {
           success: false,
           code: 20000,
-          data: null
+          msg: '不存在的文章'
         }
       }
       return {
@@ -70,8 +77,8 @@ export default [
     }
   },
   {
-    url: '/article/remove',
-    type: 'post',
+    url: '/article',
+    type: 'delete',
     response(conf) {
       const id = conf.query.id
       lodash.remove(all.data, (obj) => {
@@ -85,7 +92,7 @@ export default [
     }
   },
   {
-    url: '/article/save',
+    url: '/article',
     type: 'post',
     response(conf) {
       const data = all.data

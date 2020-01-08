@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function list(params) {
   return request({
-    url: '/article/list',
+    url: '/article',
     method: 'get',
     params
   })
@@ -10,8 +10,8 @@ export function list(params) {
 
 export function remove(id) {
   return request({
-    url: '/article/remove',
-    method: 'post',
+    url: '/article',
+    method: 'delete',
     params: {
       id: id
     }
@@ -20,15 +20,15 @@ export function remove(id) {
 
 export function save(data) {
   return request({
-    url: '/article/save',
+    url: '/article',
     method: 'post',
     data
   })
 }
 
-export function get(params) {
+export function get(id, params = {}) {
   return request({
-    url: '/article/get',
+    url: '/article/' + id,
     method: 'get',
     params
   })

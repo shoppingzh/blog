@@ -36,7 +36,7 @@
         type="primary"
         class="publish-btn"
         :loading="loading"
-        @click="publish" >
+        @click="publish">
         <span v-if="$route.query.id">保存</span>
         <span v-else><svg-icon icon-class="publish" /> 发布文章</span>
       </el-button>
@@ -75,7 +75,7 @@ export default {
 
     const id = this.$route.query.id
     if (id) {
-      get({ id: id }).then((resp) => {
+      get(id).then((resp) => {
         if (resp.success) {
           this.article = resp.data
         }
@@ -103,7 +103,7 @@ export default {
             message: '发表成功！',
             type: 'success'
           })
-          this.$router.push({ path: '/article' })
+          this.$router.back()
         }
         this.loading = false
       }).catch(() => {

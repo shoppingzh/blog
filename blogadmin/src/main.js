@@ -24,6 +24,10 @@ import '@/permission' // permission control
  * please remove it before going online! ! !
  */
 import { mockXHR } from '../mock'
+
+// 生产环境才启用Mock
+// if (process.env.NODE_ENV === 'production') {
+// }
 mockXHR()
 
 // set ElementUI lang to EN

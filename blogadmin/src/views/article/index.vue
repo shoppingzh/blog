@@ -1,9 +1,11 @@
 <template>
   <div>
     <el-table
+      v-loading="loading"
       border
       :data="page.data"
-      fit>
+      fit
+      stripe>
       <el-table-column
         label="ID"
         width="80"
@@ -18,20 +20,27 @@
         label="摘要"
         prop="summary"
       />
-      <el-table-column
+      <!-- <el-table-column
         label="发表日期">
         <template slot-scope="scope">
           {{ scope.row.createTime }}
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
-        label="标签">
+        label="标签"
+        align="center"
+        :min-width="80">
         <template slot-scope="scope">
-          <el-tag
-            v-for="tag in scope.row.tags" 
-            :key="tag"
-            type="info"
-            :style="{ marginRight: '5px', marginBottom: '3px'}">{{tag}}</el-tag>
+          <el-row
+            type="flex"
+            justify="center"
+            :style="{ flexWrap: 'wrap' }">
+            <el-tag
+              v-for="tag in scope.row.tags"
+              :key="tag"
+              type="info"
+              :style="{ marginRight: '5px', marginBottom: '3px'}">{{tag}}</el-tag>
+          </el-row>
         </template>
       </el-table-column>
       <el-table-column
@@ -80,7 +89,7 @@
           background
           layout="prev, pager, next"
           :total="page.total"
-          :page-size="pageSize"
+          :page-size="page.pageSize"
           @current-change="pageChange"
         />
       </el-col>
@@ -95,10 +104,13 @@ import { list, remove } from '@/api/article'
 export default {
   data() {
     return {
-      page: {},
-      pageSize: 15,
-      viewCurrent: false,
-      current: null
+      page: {
+        page: 1,
+        pageSize: 5,
+        total: 0,
+        data: []
+      },
+      loading: false
     }
   },
   mounted() {
@@ -109,17 +121,23 @@ export default {
       this.fetchData(page)
     },
     fetchData(page) {
-      list({ page: page, pageSize: this.pageSize }).then((resp) => {
+      this.loading = true
+      this.page.page = page
+      list({ page: page, pageSize: this.page.pageSize }).then((resp) => {
+        this.loading = false
         if (resp.success) {
           this.page = resp.data
         }
+      }).catch(() => {
+        this.loading = false
       })
     },
     remove(scope) {
       this.$confirm('确定要删除吗？').then(() => {
+        this.loading = true
         remove(scope.row.id).then((resp) => {
+          this.loading = false
           if (resp.success) {
-            window.console.log(`重新请求：${this.page.page}`)
             this.$message({
               message: '删除成功！',
               type: 'success'
@@ -128,7 +146,7 @@ export default {
           }
         })
       }).catch(() => {
-        // nothing
+        this.loading = false
       })
     },
     // 看文章

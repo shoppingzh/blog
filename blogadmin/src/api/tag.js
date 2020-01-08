@@ -10,7 +10,7 @@ export function list(params) {
 
 export function get(params) {
   return request({
-    url: '/tag/get',
+    url: '/tag/' + params.id,
     method: 'get',
     params
   })
@@ -18,7 +18,7 @@ export function get(params) {
 
 export function save(params) {
   return request({
-    url: '/tag/save',
+    url: '/tag',
     method: 'post',
     params
   })
@@ -26,8 +26,8 @@ export function save(params) {
 
 export function remove(params) {
   return request({
-    url: '/tag/remove',
-    method: 'post',
+    url: '/tag',
+    method: 'delete',
     params
   })
 }
