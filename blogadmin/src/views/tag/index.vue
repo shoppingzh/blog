@@ -162,7 +162,7 @@ export default {
     },
     handleRemove(scope) {
       this.$confirm('删除该标签？').then(() => {
-        remove({ id: scope.row.id }).then((resp) => {
+        remove(scope.row.id).then((resp) => {
           if (resp.success) {
             this.list(this.page.page)
           } else {

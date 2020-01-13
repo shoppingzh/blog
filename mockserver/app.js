@@ -3,9 +3,12 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors = require('cors')
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var userRouter = require('./routes/user');
+var tagRouter = require('./routes/tag');
+var articleRouter = require('./routes/article');
 
 var app = express();
 
@@ -18,9 +21,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+// 解决Mock服务跨域的问题
+app.use(cors())
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/user', userRouter);
+app.use('/tag', tagRouter);
+app.use('/article', articleRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

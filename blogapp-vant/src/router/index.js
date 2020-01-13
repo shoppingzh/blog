@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 
 const tabbarRoutes = [
   {
-    path: 'index',
+    path: '',
     component: () => import('@/views/home'),
     meta: {
       title: '首页',
@@ -43,7 +43,6 @@ const routes = [
   {
     path: '/',
     component: Layout,
-    redirect: 'index',
     children: tabbarRoutes
   },
   {

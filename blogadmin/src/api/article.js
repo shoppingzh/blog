@@ -10,11 +10,8 @@ export function list(params) {
 
 export function remove(id) {
   return request({
-    url: '/article',
-    method: 'delete',
-    params: {
-      id: id
-    }
+    url: '/article/' + id,
+    method: 'delete'
   })
 }
 
