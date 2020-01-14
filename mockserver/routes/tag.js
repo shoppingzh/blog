@@ -16,6 +16,13 @@ router.post('/:id?', function(req, res, next) {
     exist = data.find((obj) => {
       return obj.id === parseInt(req.params.id)
     })
+  } else {
+    const nameExist = data.find((obj) => {
+      return obj.name === req.query.name
+    })
+    if (nameExist) {
+      return res.send(result(false, null, '已存在该标签'))
+    }
   }
   if (!exist) {
     var last = data[data.length - 1]
@@ -25,6 +32,7 @@ router.post('/:id?', function(req, res, next) {
     data.push(exist)
   }
   exist.name = req.query.name
+  exist.theme = req.query.theme
   res.send(result(true, exist.id))
 })
 

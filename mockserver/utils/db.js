@@ -37,24 +37,24 @@ var tag = [
   }
 ]
 
-var article = Mock.mock({
-  'data|200': [{
-    'id|+1': 1,
-    'title|3-5': /\w{5}\s?/,
-    'summary|5': /\w{15}/,
-    'content|5-30': /\w{30}/,
-    'createTime': '@datetime',
-    'draft|2-5': true,
-    'preview': '@image'
-  }]
-}).data
+// var article = Mock.mock({
+//   'data|200': [{
+//     'id|+1': 1,
+//     'title|3-5': /\w{5}\s?/,
+//     'summary|5': /\w{15}/,
+//     'content|5-30': /\w{30}/,
+//     'createTime': '@datetime',
+//     'draft|2-5': true,
+//     'preview': '@image'
+//   }]
+// }).data
+var article = []
 
-console.log(Mock.Random.image('200x100'))
-
-// var article = []
+var article_tag = {}
 
 module.exports = {
   user,
   tag,
-  article
+  article,
+  article_tag
 }

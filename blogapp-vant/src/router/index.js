@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Layout from '@/layout'
 
 Vue.use(VueRouter)
 
 const tabbarRoutes = [
   {
-    path: '',
-    component: () => import('@/views/home'),
+    path: 'index',
+    component: () => import('@/views/tabbar/home'),
     meta: {
       title: '首页',
       icon: 'home-o'
@@ -15,7 +14,7 @@ const tabbarRoutes = [
   },
   {
     path: 'category',
-    component: () => import('@/views/category'),
+    component: () => import('@/views/tabbar/category'),
     meta: {
       title: '分类',
       icon: 'bar-chart-o'
@@ -23,7 +22,7 @@ const tabbarRoutes = [
   },
   {
     path: 'tag',
-    component: () => import('@/views/home'),
+    component: () => import('@/views/tabbar/tag'),
     meta: {
       title: '标签',
       icon: 'label-o'
@@ -31,7 +30,7 @@ const tabbarRoutes = [
   },
   {
     path: 'me',
-    component: () => import('@/views/home'),
+    component: () => import('@/views/tabbar/me'),
     meta: {
       title: '我',
       icon: 'contact'
@@ -42,7 +41,8 @@ const tabbarRoutes = [
 const routes = [
   {
     path: '/',
-    component: Layout,
+    component: () => import('@/views/index'),
+    redirect: 'index',
     children: tabbarRoutes
   },
   {

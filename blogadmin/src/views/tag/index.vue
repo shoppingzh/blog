@@ -25,27 +25,36 @@
       <el-table-column
         label="名称" >
         <template slot-scope="scope">
-          <div v-if="editingRow && scope.row.id === editingRow.id">
-            <el-input
-              ref="editInput"
-              size="small"
-              v-model="editingRow.name"
-              @focus="handleEditInuptFocus" >
-            </el-input>
-          </div>
-          <div
-            v-else
-            @dblclick="editingRow = Object.assign({}, scope.row)" >{{ scope.row.name }}</div>
+          <el-input
+            v-if="editingRow && scope.row.id === editingRow.id"
+            ref="editInput"
+            size="small"
+            v-model="editingRow.name"
+            @focus="handleEditInuptFocus"
+            @change="handleEdit" >
+          </el-input>
+          <div v-else @dblclick="handleStartEdit(scope.row)" >{{ scope.row.name }}</div>
         </template>
       </el-table-column>
       <el-table-column
-        label="操作" >
+        label="主题色"
+        align="center"
+        :width="120">
+        <el-color-picker
+          slot-scope="scope"
+          v-model="scope.row.theme"
+          @change="handleChangeTheme(scope.row)">
+        </el-color-picker>
+      </el-table-column>
+      <el-table-column
+        label="操作"
+        align="center">
         <template slot-scope="scope">
           <div v-if="editingRow === null || editingRow.id !== scope.row.id">
             <el-button
               type="primary"
               size="mini"
-              @click="editingRow = Object.assign({}, scope.row)" >
+              @click="handleStartEdit(scope.row)" >
               编辑
             </el-button>
             <el-button
@@ -85,7 +94,7 @@
 </template>
 
 <script>
-import { list, save, remove } from '@/api/tag'
+import * as api from '@/api/tag'
 
 export default {
   data() {
@@ -106,8 +115,7 @@ export default {
   methods: {
     list(page) {
       this.loading = true
-      list({ page: page, pageSize: this.page.pageSize }).then((resp) => {
-        console.log(resp.data)
+      api.list({ page: page, pageSize: this.page.pageSize }).then((resp) => {
         if (resp.success) {
           this.page = resp.data
         }
@@ -124,7 +132,7 @@ export default {
         })
         return
       }
-      save(tag).then((resp) => {
+      api.save(tag).then((resp) => {
         if (resp.success) {
           this.list(this.page.page)
           if (tag.id) {
@@ -150,11 +158,17 @@ export default {
         this.save(data)
       }).catch(() => {})
     },
+    handleStartEdit(tag) {
+      this.editingRow = Object.assign({}, tag)
+      // 自动选中
+      this.$nextTick(() => {
+        this.$refs.editInput.focus()
+      })
+    },
     handleEdit() {
       const exist = this.page.data.find((obj) => {
         return obj.id === this.editingRow.id && obj.name.trim() === this.editingRow.name.trim()
       })
-
       if (!exist) {
         this.save(this.editingRow)
       }
@@ -162,7 +176,7 @@ export default {
     },
     handleRemove(scope) {
       this.$confirm('删除该标签？').then(() => {
-        remove(scope.row.id).then((resp) => {
+        api.remove(scope.row.id).then((resp) => {
           if (resp.success) {
             this.list(this.page.page)
           } else {
@@ -179,6 +193,12 @@ export default {
     },
     handleEditInuptFocus() {
       this.$refs.editInput.select()
+    },
+    handleChangeTheme(tag) {
+      api.save(tag).then((resp) => {
+      }).catch(() => {
+        this.$message({ message: '主题色更改失败', type: 'error' })
+      })
     }
   }
 }

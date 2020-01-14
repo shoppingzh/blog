@@ -47,7 +47,7 @@ export default {
       refresh: false,
       loadMore: false,
       finishedLoadMore: false,
-      page: 1
+      page: 0
     }
   },
   methods: {
@@ -65,7 +65,7 @@ export default {
           }
           this.list.push(...newList)
         } else {
-          this.finishedLoadMore = false
+          this.finishedLoadMore = true
         }
         this.refresh = false
         this.loadMore = false

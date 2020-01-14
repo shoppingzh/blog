@@ -15,7 +15,7 @@
       :height="400" />
     <div class="other-container">
       <el-select
-        v-model="article.tags"
+        v-model="tagNames"
         multiple
         filterable
         allow-create
@@ -23,7 +23,7 @@
         :style="{ display: 'block', width: '60%' }">
         <el-option
           v-for="tag in tags"
-          :key="tag.id"
+          :key="tag.name"
           :label="tag.name"
           :value="tag.name">
         </el-option>
@@ -46,8 +46,8 @@
 
 <script>
 import tinymce from '@/components/Tinymce'
-import { save, get } from '@/api/article'
-import { list as apiListTag } from '@/api/tag'
+import * as api from '@/api/article'
+import * as tagApi from '@/api/tag'
 
 export default {
   components: {
@@ -65,17 +65,37 @@ export default {
       loading: false
     }
   },
+  computed: {
+    tagNames: {
+      get: function() {
+        const tags = this.article.tags
+        const names = []
+        if (tags && tags.length) {
+          for (const tag of tags) {
+            names.push(tag.name)
+          }
+        }
+        return names
+      },
+      set: function(newVal) {
+        const tags = []
+        for (const name of newVal) {
+          tags.push({ name: name })
+        }
+        this.article.tags = tags
+      }
+    }
+  },
   mounted() {
-    apiListTag().then((resp) => {
+    tagApi.list().then((resp) => {
       if (resp.success) {
         this.tags = resp.data.data
-        console.log(resp)
       }
     })
 
     const id = this.$route.query.id
     if (id) {
-      get(id).then((resp) => {
+      api.get(id).then((resp) => {
         if (resp.success) {
           this.article = resp.data
         }
@@ -84,19 +104,18 @@ export default {
   },
   methods: {
     publish() {
-      console.log(this.selectedTags)
       if (!this.article.content.trim()) {
         this.$message({ message: '请输入内容', type: 'error' })
         return false
       }
 
       this.loading = true
-      save({
+      api.save({
         id: this.article.id,
         title: this.article.title || '无标题文章',
         content: this.article.content,
         plainContent: this.$refs.editor.getPlainContent(),
-        tags: this.article.tags
+        tags: this.tagNames
       }).then(resp => {
         if (resp.success) {
           this.$message({

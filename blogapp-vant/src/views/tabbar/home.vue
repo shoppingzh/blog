@@ -14,7 +14,7 @@
 
 <script>
 import MyList from '@/components/MyList'
-import ArticleCard from '@/components/ArticleCard'
+import ArticleCard from '@/components/ArticleCard/index'
 
 export default {
   name: 'home',

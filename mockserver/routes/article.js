@@ -8,7 +8,16 @@ var data = db.article
 
 router.get('/', function(req, res, next) {
   setTimeout(() => {
-    res.send(result(true, page(data, req.query)))
+    const p = page(data, req.query)
+    if (p.data.length) {
+      p.data.forEach((article) => {
+        const tags = db.article_tag[article.id]
+        if (tags) {
+          article.tags = tags.slice(0, tags.length)
+        }
+      })
+    }
+    res.send(result(true, p))
   }, 500);
 })
 
@@ -21,10 +30,10 @@ router.get('/:id', function(req, res, next) {
       return obj.id === parseInt(id)
     })
     if (!article) {
-      res.send(result(false, null, '不存在的文章'))
-    } else {
-      res.send(result(true, article))
+      return res.send(result(false, null, '不存在的文章'))
     }
+    article.tags = db.article_tag[article.id]
+    res.send(result(true, article))
   }
 })
 
@@ -47,6 +56,26 @@ router.post('/:id?', function(req, res, next) {
   if (entity.plainContent) {
     var summary = entity.plainContent.slice(0, 75)
     entity.summary = summary + (entity.plainContent.length > 75 ? '...' : '')
+  }
+  var tagNames = req.body.tags
+  if (tagNames && tagNames.length) {
+    var tags = []
+    tagNames.forEach((tagName) => {
+      var exist = db.tag.find((tag) => {
+        return tag.name === tagName
+      })
+      if (!exist) {
+        exist = {
+          id: lastId(db.tag),
+          name: tagName
+        }
+        db.tag.push(exist)
+      }
+      tags.push(exist)
+    })
+    db.article_tag[entity.id] = tags
+  } else {
+    db.article_tag[entity.id] = []
   }
 
   res.send(result(true))

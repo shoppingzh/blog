@@ -35,11 +35,10 @@
             type="flex"
             justify="center"
             :style="{ flexWrap: 'wrap' }">
-            <el-tag
+            <article-tag
               v-for="tag in scope.row.tags"
-              :key="tag"
-              type="info"
-              :style="{ marginRight: '5px', marginBottom: '3px'}">{{tag}}</el-tag>
+              :key="tag.id"
+              :tag="tag"/>
           </el-row>
         </template>
       </el-table-column>
@@ -100,8 +99,12 @@
 <script>
 
 import { list, remove } from '@/api/article'
+import ArticleTag from '@/components/ArticleTag'
 
 export default {
+  components: {
+    ArticleTag
+  },
   data() {
     return {
       page: {
@@ -166,5 +169,4 @@ export default {
 </script>
 
 <style>
-
 </style>

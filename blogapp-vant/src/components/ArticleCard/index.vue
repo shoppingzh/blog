@@ -9,6 +9,16 @@
       </van-image>
     </div>
     <div class="article-body">
+      <div v-if="article.tags && article.tags.length" class="article-tags">
+        <van-tag
+          class="article-tag"
+          v-for="tag in article.tags"
+          :key="tag"
+          type="primary"
+          plain>
+          {{ tag }}
+        </van-tag>
+      </div>
       <div class="van-multi-ellipsis--l2 article-title">{{ article.title }}</div>
       <div class="van-ellipsis article-summary">{{ article.summary }}</div>
     </div>
@@ -34,4 +44,6 @@ export default {
   .article-card .article-body{ padding: 5px 10px; }
   .article-card .article-title{ font-size: 16px; color: #333; }
   .article-card .article-summary{ font-size: 12px; color: #777; padding: 5px 0; }
+
+  .article-tags .article-tag { margin-right: 5px; margin-bottom: 5px; }
 </style>
