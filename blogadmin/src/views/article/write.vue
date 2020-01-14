@@ -1,45 +1,51 @@
 <template>
   <div>
-    <el-row>
-      <el-input
-        ref="titleInput"
-        v-model="article.title"
-        placeholder="无标题文章"
-        clearable
-        class="title-input"
-        @focus="handleTitleFocus" />
-    </el-row>
-    <tinymce
-      ref="editor"
-      v-model="article.content"
-      :height="400" />
-    <div class="other-container">
-      <el-select
-        v-model="tagNames"
-        multiple
-        filterable
-        allow-create
-        placeholder="请选择文章标签"
-        :style="{ display: 'block', width: '60%' }">
-        <el-option
-          v-for="tag in tags"
-          :key="tag.name"
-          :label="tag.name"
-          :value="tag.name">
-        </el-option>
-        </el-select>
-    </div>
     <el-row
       type="flex"
-      class="publish-area" >
-      <el-button
-        type="primary"
-        class="publish-btn"
-        :loading="loading"
-        @click="publish">
-        <span v-if="$route.query.id">保存</span>
-        <span v-else><svg-icon icon-class="publish" /> 发布文章</span>
-      </el-button>
+      :gutter="20">
+      <el-col :span="18">
+        <tinymce
+          ref="editor"
+          v-model="article.content"
+          :height="450" />
+      </el-col>
+      <el-col :span="6">
+        <el-form label-position="top" label-suffix="：">
+          <el-form-item label="标题">
+            <el-input
+              ref="titleInput"
+              v-model="article.title"
+              placeholder="无标题文章"
+              clearable
+              @focus="handleTitleFocus" />
+          </el-form-item>
+          <el-form-item label="标签">
+            <el-select
+              v-model="tagNames"
+              multiple
+              filterable
+              allow-create
+              placeholder="请选择文章标签" >
+              <el-option
+                v-for="tag in tags"
+                :key="tag.name"
+                :label="tag.name"
+                :value="tag.name">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item>
+            <el-button
+              type="danger"
+              class="publish-btn"
+              :loading="loading"
+              @click="publish">
+              <span v-if="$route.query.id">保存</span>
+              <span v-else><svg-icon icon-class="publish" /> 发布文章</span>
+            </el-button>
+          </el-form-item>
+        </el-form>
+      </el-col>
     </el-row>
   </div>
 </template>
@@ -137,7 +143,6 @@ export default {
 </script>
 
 <style scoped>
-  .title-input input{ border: none; padding-left: 10px; font-size: 20px; }
   .publish-area { padding: 20px 10px; }
   .other-container { padding: 10px 5px; }
 </style>
