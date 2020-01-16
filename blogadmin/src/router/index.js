@@ -191,11 +191,28 @@ export const constantRoutes = [
   },
 
   {
+    path: '/category',
+    component: Layout,
+    meta: {
+      title: '分类管理',
+      icon: 'category'
+    },
+    children: [
+      {
+        path: '',
+        name: 'Index',
+        hidden: true,
+        component: () => import('@/views/category/index')
+      }
+    ]
+  },
+
+  {
     path: '/tag',
     component: Layout,
     meta: {
       title: '标签管理',
-      icon: 'tags'
+      icon: 'tag'
     },
     redirect: '',
     children: [
