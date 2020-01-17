@@ -6,6 +6,7 @@ import java.util.Date;
 
 @Data
 public class User {
+
     private String id;
     private String username;
     private String password;
@@ -14,4 +15,5 @@ public class User {
     private Boolean deleted;
     private Date gmtCreate;
     private Date gmtModify;
+
 }

@@ -6,12 +6,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserMapper {
-
-    /**
-     * 查询所有用户
-     * @return
-     */
-    List<User> selectAll();
+public interface UserMapper extends BaseMapper<User> {
 
 }

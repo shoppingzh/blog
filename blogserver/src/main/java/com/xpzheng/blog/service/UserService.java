@@ -14,9 +14,4 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<User> getAllUser(){
-        System.out.println("获取所有用户");
-        return userMapper.selectAll();
-    }
-
 }

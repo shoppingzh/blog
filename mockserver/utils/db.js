@@ -57,26 +57,6 @@ var category = [
     id: 1,
     name: '随笔',
     parent: null
-  },
-  {
-    id:  2,
-    name: '技术文章',
-    parent: null
-  },
-  {
-    id: 3,
-    name: '技术精讲',
-    parent: 2
-  },
-  {
-    id: 4,
-    name: '前端精讲',
-    parent: 3
-  },
-  {
-    id: 5,
-    name: '前端整合',
-    parent: 4
   }
 ]
 

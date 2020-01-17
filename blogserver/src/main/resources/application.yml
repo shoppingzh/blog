@@ -8,3 +8,5 @@ mybatis:
   type-aliases-package: com.xpzheng.blog.model
   mapper-locations: classpath*:mybatis/mapper/*Mapper.xml
 debug: true
+server:
+  port: 3000
