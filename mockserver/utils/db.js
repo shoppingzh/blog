@@ -57,6 +57,41 @@ var category = [
     id: 1,
     name: '随笔',
     parent: null
+  },
+  {
+    id: 2,
+    name: '技术',
+    parent: null
+  },
+  {
+    id: 3,
+    name: '后端技术',
+    parent: 2
+  },
+  {
+    id: 4,
+    name: '前端技术',
+    parent: 2
+  },
+  {
+    id: 5,
+    name: 'Vue',
+    parent: 4
+  },
+  {
+    id: 6,
+    name: 'React',
+    parent: 4
+  },
+  {
+    id: 7,
+    name: 'Vue Router',
+    parent: 5
+  },
+  {
+    id: 8,
+    name: 'Vuex',
+    parent: 5
   }
 ]
 

@@ -21,3 +21,10 @@ export function save(data) {
     data
   })
 }
+
+export function remove(id) {
+  return request({
+    url: '/category/' + (id || ''),
+    method: 'delete'
+  })
+}

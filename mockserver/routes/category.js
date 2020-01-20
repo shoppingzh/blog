@@ -5,30 +5,35 @@ var { page, findById, lastId, result } = require('../utils/api')
 
 var router = express.Router();
 
-function iterateTree (list) {
-    list.forEach((obj) => {
-        var children = []
-        db.category.forEach((cat) => {
-            if(cat.parent === obj.id) {
-                children.push(cat)
-            }
-        })
-        obj.children = children
-        if(children.length) {
-            iterateTree(children)
-        }
-    })
-}
-
-router.get('/',  function(req, res,  next) {
-    var list = []
+function getTree() {
+    const list = []
     db.category.forEach((cat) => {
         if(!cat.parent) {
             list.push(cat)
         }
     });
     iterateTree(list)
-    res.send(result(true, list))
+
+    function iterateTree (list) {
+        list.forEach((obj) => {
+            var children = []
+            db.category.forEach((cat) => {
+                if(cat.parent === obj.id) {
+                    children.push(cat)
+                }
+            })
+            obj.children = children
+            if(children.length) {
+                iterateTree(children)
+            }
+        })
+    }
+
+    return list;
+}
+
+router.get('/',  function(req, res,  next) {
+    res.send(result(true, getTree()))
 })
 
 router.get('/children/:id?', function(req, res, next){
@@ -74,9 +79,11 @@ router.post('/:id?', function(req, res, next) {
 })
 
 router.delete('/:id', function(req, res, next) {
+    const id = parseInt(req.params.id)
     _.remove(db.category, (obj) => {
-        return obj.id === parseInt(req.params.id)
+        return obj.id === id
     })
+    // 注：此处特意没有删除所有子元素，因为其不会被查询出来，因此不会影响查询的数据
     res.send(result(true))
 })
 
