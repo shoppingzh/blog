@@ -5,11 +5,16 @@ var { page, findById, lastId, result } = require('../utils/api')
 
 var router = express.Router();
 
+function categoryDTO(category) {
+    const dto = Object.assign({}, category)
+    return dto
+}
+
 function getTree() {
     const list = []
     db.category.forEach((cat) => {
         if(!cat.parent) {
-            list.push(cat)
+            list.push(categoryDTO(cat))
         }
     });
     iterateTree(list)
@@ -19,7 +24,7 @@ function getTree() {
             var children = []
             db.category.forEach((cat) => {
                 if(cat.parent === obj.id) {
-                    children.push(cat)
+                    children.push(categoryDTO(cat))
                 }
             })
             obj.children = children
@@ -40,12 +45,10 @@ router.get('/children/:id?', function(req, res, next){
     const children = []
     db.category.forEach((obj) => {
         if(obj.parent === parseInt(req.params.id) || (!req.params.id  && obj.parent === null)){
-            children.push(obj)
+            children.push(categoryDTO(obj))
         }
     })
-    setTimeout(() => {
-        res.send(result(true, children))
-    }, 500);
+    res.send(result(true, children))
 })
 
 router.get('/:id', function(req, res, next) {
@@ -55,7 +58,7 @@ router.get('/:id', function(req, res, next) {
     if(!cat) {
         return res.send(result(false, null, '不存在的分类'))
     }
-    return res.send(result(true, cat))
+    return res.send(result(true, categoryDTO(cat)))
 })
 
 router.post('/:id?', function(req, res, next) {

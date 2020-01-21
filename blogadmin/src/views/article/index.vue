@@ -10,12 +10,14 @@
         label="ID"
         width="80"
         align="center"
-        prop="id"
-      />
+        prop="id">
+      </el-table-column>
       <el-table-column
-        label="标题"
-        prop="title"
-      />
+        label="标题">
+        <template slot-scope="scope">
+          <el-link type="primary" @click="handleView(scope.row)">{{ scope.row.title }}</el-link>
+        </template>
+      </el-table-column>
       <el-table-column
         label="摘要"
         prop="summary"
@@ -26,6 +28,14 @@
           {{ scope.row.createTime }}
         </template>
       </el-table-column> -->
+      <el-table-column
+        label="分类"
+        align="center"
+        :width="100">
+          <template slot-scope="scope">
+            {{ scope.row.category ? scope.row.category.name : '无' }}
+          </template>
+      </el-table-column>
       <el-table-column
         label="标签"
         align="center"
@@ -44,11 +54,11 @@
       </el-table-column>
       <el-table-column
         label="状态"
-        width="120"
+        width="70"
         align="center">
         <template slot-scope="scope">
-          <el-tag v-if="!scope.row.draft" type="success">已发布</el-tag>
-          <el-tag v-else type="info">草稿</el-tag>
+          <i  v-if="!scope.row.draft" class="el-icon-check" style="color: #0f0;"></i>
+          <i v-else class="el-icon-s-promotion"></i>
         </template>
       </el-table-column>
       <el-table-column>
@@ -64,9 +74,10 @@
         </template>
         <template slot-scope="scope">
           <el-button
+            v-if="scope.row.draft"
             size="mini"
-            type="info"
-            @click="view(scope)"> 查看
+            type="success"
+            @click="handlePublish(scope.row)"> 发布
           </el-button>
           <el-button
             size="mini"
@@ -98,7 +109,7 @@
 
 <script>
 
-import { list, remove } from '@/api/article'
+import * as api from '@/api/article'
 import ArticleTag from '@/components/ArticleTag'
 
 export default {
@@ -126,7 +137,7 @@ export default {
     fetchData(page) {
       this.loading = true
       this.page.page = page
-      list({ page: page, pageSize: this.page.pageSize }).then((resp) => {
+      api.list({ page: page, pageSize: this.page.pageSize }).then((resp) => {
         this.loading = false
         if (resp.success) {
           this.page = resp.data
@@ -138,7 +149,7 @@ export default {
     remove(scope) {
       this.$confirm('确定要删除吗？').then(() => {
         this.loading = true
-        remove(scope.row.id).then((resp) => {
+        api.remove(scope.row.id).then((resp) => {
           this.loading = false
           if (resp.success) {
             this.$message({
@@ -153,8 +164,8 @@ export default {
       })
     },
     // 看文章
-    view(scope) {
-      this.$router.push({ path: `/article/view/${scope.row.id}` })
+    handleView(article) {
+      this.$router.push({ path: `/article/view/${article.id}` })
     },
     // 编辑文章
     edit(scope) {
@@ -163,6 +174,16 @@ export default {
     // 写文章
     write() {
       this.$router.push({ path: '/article/write' })
+    },
+    // 发布文章
+    handlePublish(article) {
+      this.$confirm('发布，确定？').then(() => {
+        api.publish(article.id).then((resp) => {
+          if (resp.success) {
+            article.draft = false
+          }
+        })
+      }).catch(() => {})
     }
   }
 }

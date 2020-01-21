@@ -30,3 +30,10 @@ export function get(id, params = {}) {
     params
   })
 }
+
+export function publish(id) {
+  return request({
+    url: '/article/publish/' + id,
+    method: 'post'
+  })
+}
