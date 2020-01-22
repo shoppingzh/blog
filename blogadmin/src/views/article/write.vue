@@ -60,14 +60,8 @@
     </el-row>
     <el-dialog
       :visible.sync="choosingCat">
-      <el-tree
-        ref="catTree"
-        node-key="id"
-        :props="{ label: 'name', children: 'children' }"
-        lazy
-        :expand-on-click-node="false"
-        :load="handleCatTreeLoad">
-      </el-tree>
+      <category-tree
+        ref="catTree"></category-tree>
       <div class="app-container" style="text-align: right;">
         <el-button
           type="primary"
@@ -82,13 +76,14 @@
 
 <script>
 import tinymce from '@/components/Tinymce'
+import CategoryTree from '@/components/CategoryTree'
 import * as api from '@/api/article'
 import * as tagApi from '@/api/tag'
-import * as catApi from '@/api/category'
 
 export default {
   components: {
-    tinymce
+    tinymce,
+    CategoryTree
   },
   data() {
     return {
@@ -173,19 +168,17 @@ export default {
     handleTitleFocus(e) {
       this.$refs.titleInput.select()
     },
-    handleCatTreeLoad(node, resolve) {
-      catApi.children(node.level <= 0 ? '' : node.data.id).then((resp) => {
-        if (resp.success) {
-          resolve(resp.data)
-        }
-      })
-    },
     handleChooseCategory() {
       this.choosingCat = true
     },
     handleChooseCategoryEnd() {
-      const data = this.$refs.catTree.getCurrentNode()
-      this.article.category = data
+      const checkNodes = this.$refs.catTree.$refs.tree.getCheckedNodes()
+      if (checkNodes.length > 1) {
+        return this.$alert('只能选择一个分类')
+      }
+      if (checkNodes.length > 0) {
+        this.article.category = checkNodes[0]
+      }
       this.choosingCat = false
     }
   }
