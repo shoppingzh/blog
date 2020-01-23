@@ -1,12 +1,19 @@
 <template>
   <div>
-    <van-tag
-      v-for="item in list"
-      :key="item.id"
-      type="warning"
-      plain>
-      {{ item.name }}
-    </van-tag>
+    <van-nav-bar
+      title="标签"
+      border>
+    </van-nav-bar>
+    <div class="app-container">
+      <van-tag
+        v-for="item in list"
+        :key="item.id"
+        class="tag"
+        type="warning"
+        :color="item.theme">
+        {{ item.name }}
+      </van-tag>
+    </div>
   </div>
 </template>
 
@@ -29,6 +36,7 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+  .app-container{ padding: 10px; }
+  .tag{ margin-right: 5px; margin-bottom: 5px; }
 </style>

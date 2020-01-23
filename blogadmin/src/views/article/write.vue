@@ -61,7 +61,8 @@
     <el-dialog
       :visible.sync="choosingCat">
       <category-tree
-        ref="catTree"></category-tree>
+        ref="catTree"
+        :choose="true"></category-tree>
       <div class="app-container" style="text-align: right;">
         <el-button
           type="primary"

@@ -1,6 +1,9 @@
 <template>
   <div>
-    我
+    <van-nav-bar
+      title="我"
+      border>
+    </van-nav-bar>
   </div>
 </template>
 

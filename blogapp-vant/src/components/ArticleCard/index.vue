@@ -13,10 +13,11 @@
         <van-tag
           class="article-tag"
           v-for="tag in article.tags"
-          :key="tag"
+          :key="tag.id"
+          :color="tag.theme"
           type="primary"
           plain>
-          {{ tag }}
+          {{ tag.name }}
         </van-tag>
       </div>
       <div class="van-multi-ellipsis--l2 article-title">{{ article.title }}</div>
