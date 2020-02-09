@@ -14,8 +14,8 @@ public class RequestFilter implements Filter {
         System.out.println("过滤器拦截");
         HttpServletResponse resp = (HttpServletResponse) response;
         resp.addHeader("Access-Control-Allow-Origin", "*");
-//        resp.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
-        resp.addHeader("Access-Control-Allow-Methods", "*");
+        resp.addHeader("Access-Control-Allow-Methods", "POST,PUT,DELETE,PATCH");
+//        resp.addHeader("Access-Control-Allow-Methods", "*");
         resp.addHeader("Access-Control-Allow-Headers", "Content-Type,Access-Token");
         chain.doFilter(request, response);
     }

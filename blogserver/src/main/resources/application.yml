@@ -10,3 +10,8 @@ mybatis:
 debug: true
 server:
   port: 3000
+logging:
+  level:
+    root: ERROR
+    com:
+      xpzheng: DEBUG
