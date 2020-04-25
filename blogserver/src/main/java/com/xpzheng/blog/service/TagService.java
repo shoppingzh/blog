@@ -9,6 +9,7 @@ import com.xpzheng.blog.model.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.function.Function;
 
 @Service
@@ -21,36 +22,66 @@ public class TagService {
         tagMapper.insert(tag);
     }
 
+    /**
+     * 删除指定标签
+     * @param id 标签ID
+     * @return
+     */
     public boolean remove(long id) {
         return tagMapper.deleteById(id) > 0;
     }
 
+    /**
+     * 获取指定标签
+     * @param id 标签ID
+     * @return
+     */
     public Tag get(long id) {
         return tagMapper.selectById(id);
     }
 
     /**
      * 获取标签列表
-     * @param tag
+     * @param page 当前页
+     * @param pageSize 每页数量
      * @return
      */
     public PageDTO<TagDTO> list(int page, int pageSize) {
         IPage<Tag> p = new Page<Tag>(page, pageSize);
         tagMapper.selectPage(p, null);
-        return PageDTO.valueOf(p, new DTOConverter());
+        return PageDTO.valueOf(p, new Function<Tag, TagDTO>() {
+
+            @Override
+            public TagDTO apply(Tag t) {
+                return null;
+            }
+        });
     }
 
-    class DTOConverter implements Function<Tag, TagDTO> {
+    /**
+     * 更新指定的标签
+     * @param tagDTO
+     * @return
+     */
+    public boolean update(TagDTO tagDTO) {
+        Tag tag = new Tag();
+        tag.setId(Long.valueOf(tagDTO.getId()));
+        tag.setName(tagDTO.getName());
+        tag.setTheme(tagDTO.getTheme());
+        tag.setGmtModify(new Date());
+        tagMapper.updateById(tag);
+        return true;
+    }
 
-        @Override
-        public TagDTO apply(Tag t) {
-            TagDTO dto = new TagDTO();
-            dto.setId(String.valueOf(t.getId()));
-            dto.setName(t.getName());
-            dto.setTheme(t.getTheme());
-            return dto;
+    public TagDTO dto(Tag tag) {
+        if (tag == null) {
+            return null;
         }
-
+        TagDTO dto = new TagDTO();
+        dto.setId(String.valueOf(tag.getId()));
+        dto.setName(tag.getName());
+        dto.setTheme(tag.getTheme());
+        return dto;
     }
 
 }
