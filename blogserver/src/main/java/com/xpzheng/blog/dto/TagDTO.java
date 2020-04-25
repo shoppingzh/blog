@@ -1,15 +1,19 @@
-package com.xpzheng.blog.model;
-
-import com.baomidou.mybatisplus.annotation.TableName;
+/**
+ * 
+ */
+package com.xpzheng.blog.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+/**
+ * @author xpzheng
+ *
+ */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@TableName("t_tag")
-public class Tag extends BaseModel {
-
+public class TagDTO extends BaseDTO {
+    
     private String name;
     private String theme;
 

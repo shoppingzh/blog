@@ -6,23 +6,32 @@ import com.xpzheng.blog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(path = "tag")
-public class TagController {
+public class TagController extends BaseController {
 
     @Autowired
     private TagService tagService;
 
-    @GetMapping("")
+    @GetMapping()
     public AjaxResult list(Integer page, Integer pageSize) {
-        return AjaxResult.success(page == null ? tagService.list(null) : tagService.page(null, page, pageSize == null ? 15 : pageSize));
+        return success(tagService.list(page, pageSize));
     }
 
-    @GetMapping("/{id}")
-    public Tag getOne(@PathVariable("id") Long id) {
-        return tagService.getById(id);
+    @PostMapping()
+    public AjaxResult add(Tag tag) {
+        tagService.add(tag);
+        return success();
+    }
+
+    public AjaxResult update(Tag tag) {
+        return success();
+    }
+
+    @DeleteMapping("/{id}")
+    public AjaxResult remove(@PathVariable("id") Long id) {
+        tagService.remove(id);
+        return success();
     }
 
 }

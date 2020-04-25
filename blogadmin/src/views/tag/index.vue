@@ -140,6 +140,8 @@ export default {
               message: '修改成功！',
               type: 'success'
             })
+          } else {
+            this.list(this.page.pages)
           }
         } else {
           this.$message({

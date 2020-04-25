@@ -47,7 +47,7 @@ create table t_tag(
 	primary key(id)
 );
 
-insert into t_tag (id, name, theme) values (1, 'Vue', '#0f0');
+insert into t_tag (id, name, theme, gmt_create) values (1, 'Vue', '#0f0', '2020-04-24 21:52:40');
 
 create table t_article_tag(
 	aid bigint,

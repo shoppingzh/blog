@@ -1,8 +1,10 @@
 package com.xpzheng.blog.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class Article extends BaseModel {
 
     private String uid;

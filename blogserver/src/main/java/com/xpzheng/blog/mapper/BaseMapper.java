@@ -3,6 +3,13 @@ package com.xpzheng.blog.mapper;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * 使用mybatis plus替代
+ * @author xpzheng
+ *
+ * @param <T>
+ */
+@Deprecated
 public interface BaseMapper<T> {
 
     /**

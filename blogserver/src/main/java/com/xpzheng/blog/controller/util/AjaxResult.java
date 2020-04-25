@@ -48,6 +48,10 @@ public class AjaxResult {
     public void setCode(Integer code) {
         this.code = code;
     }
+    
+    public static AjaxResult success() {
+        return success(null);
+    }
 
     public static AjaxResult success(Object data){
         return new AjaxResult(true, data);
