@@ -16,5 +16,7 @@ public class TagDTO extends BaseDTO {
     
     private String name;
     private String theme;
+    
+    private String keyword;
 
 }

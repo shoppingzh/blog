@@ -3,8 +3,6 @@
  */
 package com.xpzheng.blog.controller;
 
-import org.springframework.web.bind.annotation.RestController;
-
 import com.xpzheng.blog.controller.util.AjaxResult;
 
 /**
@@ -12,6 +10,8 @@ import com.xpzheng.blog.controller.util.AjaxResult;
  *
  */
 public abstract class BaseController {
+    
+    protected static final String DEFAULT_PAGESIZE = "10";
 
     /**
      * Ajax success

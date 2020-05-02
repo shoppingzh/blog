@@ -10,14 +10,14 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 
 @Data
-@EqualsAndHashCode(of = {"id"})
+@EqualsAndHashCode(of = { "id" })
 public class BaseModel {
 
     @TableId(type = IdType.AUTO)
     private Long id;
-    @TableField(value="gmt_create")
+    @TableField(value = "gmt_create")
     private Date gmtCreate;
-    @TableField(value="gmt_modify")
+    @TableField(value = "gmt_modify")
     private Date gmtModify;
     private Boolean deleted;
 

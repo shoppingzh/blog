@@ -1,7 +1,7 @@
 package com.xpzheng.blog.controller;
 
 import com.xpzheng.blog.controller.util.AjaxResult;
-import com.xpzheng.blog.model.Tag;
+import com.xpzheng.blog.dto.TagDTO;
 import com.xpzheng.blog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,24 +14,24 @@ public class TagController extends BaseController {
     private TagService tagService;
 
     @GetMapping()
-    public AjaxResult list(Integer page, Integer pageSize) {
-        return success(tagService.list(page, pageSize));
+    public AjaxResult list(Integer page, @RequestParam(defaultValue = DEFAULT_PAGESIZE) Integer pageSize,
+            @RequestParam(required = false) TagDTO tag) {
+        return success(tagService.page(page, pageSize, tag));
     }
 
     @PostMapping()
-    public AjaxResult add(Tag tag) {
-        tagService.add(tag);
-        return success();
+    public AjaxResult add(TagDTO tag) {
+        return success(tagService.add(tag));
     }
 
-    public AjaxResult update(Tag tag) {
-        return success();
+    @PutMapping("/{id}")
+    public AjaxResult update(TagDTO tag) {
+        return success(tagService.update(tag));
     }
 
     @DeleteMapping("/{id}")
     public AjaxResult remove(@PathVariable("id") Long id) {
-        tagService.remove(id);
-        return success();
+        return success(tagService.remove(id));
     }
 
 }

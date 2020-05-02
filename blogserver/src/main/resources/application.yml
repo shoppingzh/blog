@@ -16,6 +16,6 @@ server:
       context-path: /api
 logging:
   level:
-    root: ERROR
+    root: INFO
     com:
-      xpzheng: DEBUG
+      xpzheng: INFO
