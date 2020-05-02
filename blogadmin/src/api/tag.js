@@ -19,7 +19,7 @@ export function get(params) {
 export function save(params) {
   return request({
     url: `/tag/${params.id || ''}`,
-    method: 'post',
+    method: params.id ? 'put' : 'post',
     params
   })
 }

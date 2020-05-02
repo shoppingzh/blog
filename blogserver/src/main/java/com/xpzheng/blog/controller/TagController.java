@@ -26,6 +26,7 @@ public class TagController extends BaseController {
 
     @PutMapping("/{id}")
     public AjaxResult update(TagDTO tag) {
+        System.out.println(tag);
         return success(tagService.update(tag));
     }
 

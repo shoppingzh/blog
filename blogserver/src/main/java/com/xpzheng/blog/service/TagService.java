@@ -128,7 +128,6 @@ public class TagService {
             return null;
         }
         Tag tag = new Tag();
-        tag.setId(Long.valueOf(dto.getId()));
         tag.setTheme(dto.getTheme());
         tag.setName(dto.getName());
         return tag;
