@@ -86,10 +86,12 @@ public class TagService {
      */
     public PageDTO<TagDTO> page(int page, int pageSize, TagDTO tagDTO) {
         QueryWrapper<Tag> wrapper = new QueryWrapper<Tag>().eq("deleted", false);
-        if (StringUtils.isNotBlank(tagDTO.getName())) {
-            wrapper.eq("name", tagDTO.getName());
-        } else if (StringUtils.isNotBlank(tagDTO.getKeyword())) {
-            wrapper.like("name", tagDTO.getKeyword());
+        if (tagDTO != null) {
+            if (StringUtils.isNotBlank(tagDTO.getName())) {
+                wrapper.eq("name", tagDTO.getName());
+            } else if (StringUtils.isNotBlank(tagDTO.getKeyword())) {
+                wrapper.like("name", tagDTO.getKeyword());
+            }
         }
         IPage<Tag> p = new Page<Tag>(page, pageSize);
         tagMapper.selectPage(p, wrapper);
