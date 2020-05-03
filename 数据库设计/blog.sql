@@ -51,7 +51,7 @@ insert into t_tag (id, name, theme, gmt_create) values (1, 'Vue', '#0f0', '2020-
 insert into t_tag (id, name, theme, gmt_create) values (2, 'React', '#0ff', '2020-05-02 21:49:33');
 
 create table t_article_tag(
-	aid bigint,
+	aid varchar(256),
 	tid bigint,
 	gmt_create datetime,
 	primary key(aid, tid)

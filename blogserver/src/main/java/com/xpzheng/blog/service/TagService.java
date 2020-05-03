@@ -26,10 +26,11 @@ public class TagService {
      * 新增标签
      * @param tagDTO
      */
-    public boolean add(TagDTO tagDTO) {
+    public Long add(TagDTO tagDTO) {
         Tag tag = tag(tagDTO);
         tag.setGmtCreate(new Date());
-        return tagMapper.insert(tag) > 0;
+        tagMapper.insert(tag);
+        return tag.getId();
     }
 
     /**

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,18 +36,20 @@ public class CategoryService {
      * @param categoryDTO
      * @return
      */
-    public boolean add(CategoryDTO categoryDTO) {
+    public Long add(CategoryDTO categoryDTO) {
         Category cat = new Category();
         cat.setName(categoryDTO.getName());
         cat.setGmtCreate(new Date());
-        if (categoryDTO.getParent() != null) {
-            Category parent = categoryMapper.selectById(Long.valueOf(categoryDTO.getParent().getId()));
+        CategoryDTO parentDTO = categoryDTO.getParent();
+        if (parentDTO != null && StringUtils.isNotBlank(parentDTO.getId())) {
+            Category parent = categoryMapper.selectById(Long.valueOf(parentDTO.getId()));
             if (parent != null) {
                 cat.setPid(parent.getId());
                 cat.setPath(TreePathUtils.joinPath(parent.getPath(), String.valueOf(parent.getId())));
             }
         }
-        return categoryMapper.insert(cat) > 0;
+        categoryMapper.insert(cat);
+        return cat.getId();
     }
 
     /**

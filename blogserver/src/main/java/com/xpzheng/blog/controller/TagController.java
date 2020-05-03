@@ -14,19 +14,20 @@ public class TagController extends BaseController {
     private TagService tagService;
 
     @GetMapping
-    public AjaxResult list(Integer page, @RequestParam(defaultValue = DEFAULT_PAGESIZE) Integer pageSize,
+    public AjaxResult page(@RequestParam(defaultValue = DEFAULT_PAGE) 
+    Integer page, @RequestParam(defaultValue = DEFAULT_PAGESIZE) Integer pageSize,
             @RequestParam(required = false) TagDTO tag) {
         return success(tagService.page(page, pageSize, tag));
     }
 
     @PostMapping
     public AjaxResult add(TagDTO tag) {
-        return success(tagService.add(tag));
+        Long id = tagService.add(tag);
+        return id != null ? success(id) : failed();
     }
 
     @PutMapping("/{id}")
     public AjaxResult update(TagDTO tag) {
-        System.out.println(tag);
         return success(tagService.update(tag));
     }
 

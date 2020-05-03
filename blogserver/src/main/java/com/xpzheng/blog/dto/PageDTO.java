@@ -11,12 +11,14 @@ import java.util.function.Function;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * @author xpzheng
  *
  */
 @Data
+@ToString
 public class PageDTO<E> {
 
     private int page = 1;

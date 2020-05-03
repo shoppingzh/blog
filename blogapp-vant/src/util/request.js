@@ -2,7 +2,7 @@ import axios from 'axios'
 import { Notify } from 'vant'
 
 const service = axios.create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'http://localhost:8888/api',
   timeout: 5000
   // withCredentials: true // 支持跨域
 })

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,13 +44,19 @@ public class CategoryController extends BaseController {
 
     @PostMapping
     public AjaxResult add(@RequestBody(required = true) CategoryDTO categoryDTO) {
-        boolean result = categoryService.add(categoryDTO);
-        return result ? success() : failed();
+        Long id = categoryService.add(categoryDTO);
+        return id != null ? success(id) : failed();
     }
 
     @DeleteMapping("{id}")
     public AjaxResult remove(@PathVariable(name = "id") Long id) {
         boolean result = categoryService.remove(id);
+        return result ? success() : failed();
+    }
+
+    @PutMapping("{id}")
+    public AjaxResult update(@RequestBody(required = true) CategoryDTO categoryDTO) {
+        boolean result = categoryService.update(categoryDTO);
         return result ? success() : failed();
     }
 

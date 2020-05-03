@@ -54,7 +54,7 @@ plain_content | text | | 是 | 纯文本内容
 ## t_article_tag
 名称 | 类型 | 默认值 | 非空 | 说明
 -- | -- | -- | -- |-- 
-aid | bigint | | 是 | 文章ID
+aid | varchar | | 是 | 文章ID
 tid | bigint | | 是 | 标签ID
 gmt_create | datetime | | 是 | 创建时间
 

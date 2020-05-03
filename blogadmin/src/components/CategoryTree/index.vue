@@ -100,7 +100,7 @@ export default {
       this.addParent = data
       this.editCat = {
         parent: {
-          id: data ? data.id : ''
+          id: data ? data.id : null
         }
       }
     },

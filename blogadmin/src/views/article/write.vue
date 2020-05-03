@@ -150,8 +150,8 @@ export default {
         title: this.article.title || '无标题文章',
         content: this.article.content,
         plainContent: this.$refs.editor.getPlainContent(),
-        tags: this.tagNames,
-        category: this.article.category ? this.article.category.id : '',
+        tags: this.article.tags,
+        category: this.article.category,
         draft: draft || false
       }).then(resp => {
         if (resp.success) {

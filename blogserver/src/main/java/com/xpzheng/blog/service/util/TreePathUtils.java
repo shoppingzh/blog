@@ -3,7 +3,6 @@
  */
 package com.xpzheng.blog.service.util;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -58,15 +57,6 @@ public class TreePathUtils {
             path = path + SEPARATER;
         }
         return path;
-    }
-
-    public static void main(String[] args) {
-        List<String> list = new ArrayList<String>();
-        list.add("123");
-        list.add("456");
-        list.add("789");
-        String parentPath = joinPath(list);
-        System.out.println(joinPath(parentPath, "111"));
     }
 
 }
