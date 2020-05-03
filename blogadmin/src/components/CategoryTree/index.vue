@@ -99,7 +99,9 @@ export default {
     handleAdd(data) {
       this.addParent = data
       this.editCat = {
-        parent: data ? data.id : ''
+        parent: {
+          id: data ? data.id : ''
+        }
       }
     },
     handleEdit(data) {

@@ -9,7 +9,10 @@ export function tree() {
 
 export function children(pid) {
   return request({
-    url: '/category/children/' + (pid || ''),
+    url: '/category',
+    params: {
+      pid
+    },
     method: 'get'
   })
 }

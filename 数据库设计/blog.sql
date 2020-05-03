@@ -34,7 +34,7 @@ create table t_article_content(
 	aid varchar(256) not null,
 	content text not null,
 	plain_content text,
-	primary key(article_id)
+	primary key(aid)
 );
 
 create table t_tag(
@@ -48,6 +48,7 @@ create table t_tag(
 );
 
 insert into t_tag (id, name, theme, gmt_create) values (1, 'Vue', '#0f0', '2020-04-24 21:52:40');
+insert into t_tag (id, name, theme, gmt_create) values (2, 'React', '#0ff', '2020-05-02 21:49:33');
 
 create table t_article_tag(
 	aid bigint,

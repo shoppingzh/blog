@@ -13,13 +13,13 @@ public class TagController extends BaseController {
     @Autowired
     private TagService tagService;
 
-    @GetMapping()
+    @GetMapping
     public AjaxResult list(Integer page, @RequestParam(defaultValue = DEFAULT_PAGESIZE) Integer pageSize,
             @RequestParam(required = false) TagDTO tag) {
         return success(tagService.page(page, pageSize, tag));
     }
 
-    @PostMapping()
+    @PostMapping
     public AjaxResult add(TagDTO tag) {
         return success(tagService.add(tag));
     }

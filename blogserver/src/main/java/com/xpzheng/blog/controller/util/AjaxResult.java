@@ -56,6 +56,10 @@ public class AjaxResult {
     public static AjaxResult success(Object data){
         return new AjaxResult(true, data);
     }
+    
+    public static AjaxResult failed() {
+        return failed(null);
+    }
 
     public static  AjaxResult failed(String msg) {
         return new AjaxResult(false, msg);

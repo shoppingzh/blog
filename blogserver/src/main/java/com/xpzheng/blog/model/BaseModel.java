@@ -14,11 +14,20 @@ import com.baomidou.mybatisplus.annotation.TableId;
 public class BaseModel {
 
     @TableId(type = IdType.AUTO)
-    private Long id;
+    protected Long id;
     @TableField(value = "gmt_create")
-    private Date gmtCreate;
+    protected Date gmtCreate;
     @TableField(value = "gmt_modify")
-    private Date gmtModify;
-    private Boolean deleted;
+    protected Date gmtModify;
+    protected Boolean deleted;
+
+    public BaseModel() {
+        super();
+    }
+
+    public BaseModel(Long id) {
+        super();
+        this.id = id;
+    }
 
 }

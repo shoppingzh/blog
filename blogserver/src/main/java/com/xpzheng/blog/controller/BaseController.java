@@ -29,6 +29,10 @@ public abstract class BaseController {
     public AjaxResult success(Object vo) {
         return AjaxResult.success(vo);
     }
+    
+    public AjaxResult failed() {
+        return AjaxResult.failed();
+    }
 
     /**
      * Ajax failed with a message

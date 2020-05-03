@@ -112,7 +112,7 @@ public class TagService {
         return page(1, -1, tagDTO).getData();
     }
 
-    public TagDTO tagDTO(Tag tag) {
+    private TagDTO tagDTO(Tag tag) {
         if (tag == null) {
             return null;
         }
@@ -123,7 +123,7 @@ public class TagService {
         return dto;
     }
 
-    public Tag tag(TagDTO dto) {
+    private Tag tag(TagDTO dto) {
         if (dto == null) {
             return null;
         }
