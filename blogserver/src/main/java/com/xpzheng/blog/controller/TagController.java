@@ -16,8 +16,11 @@ public class TagController extends BaseController {
     @GetMapping
     public AjaxResult page(@RequestParam(defaultValue = DEFAULT_PAGE) 
     Integer page, @RequestParam(defaultValue = DEFAULT_PAGESIZE) Integer pageSize,
-            @RequestParam(required = false) TagDTO tag) {
-        return success(tagService.page(page, pageSize, tag));
+            @RequestParam(required = false) TagDTO tag,
+            String keyword) {
+        TagDTO tagDTO = new TagDTO();
+        tagDTO.setKeyword(keyword);
+        return success(tagService.page(page, pageSize, tagDTO));
     }
 
     @PostMapping

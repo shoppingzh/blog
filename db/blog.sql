@@ -23,6 +23,7 @@ create table t_article(
 	cid bigint,
 	title varchar(1024) not null default '',
 	summary varchar(1024) not null default '',
+	hot smallint not null default 0,
 	draft tinyint not null default 1,
 	deleted tinyint not null default 0,
 	gmt_create datetime,
@@ -39,7 +40,7 @@ create table t_article_content(
 
 create table t_tag(
 	id bigint auto_increment,
-	name varchar(256) not null,
+	name varchar(256) not null unique,
 	theme varchar(64),
 	deleted tinyint not null default 0,
 	gmt_create datetime,

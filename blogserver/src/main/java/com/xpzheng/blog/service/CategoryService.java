@@ -19,6 +19,7 @@ import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.xpzheng.blog.dto.CategoryDTO;
 import com.xpzheng.blog.mapper.CategoryMapper;
 import com.xpzheng.blog.model.Category;
+import com.xpzheng.blog.service.util.MyQueryWrapper;
 import com.xpzheng.blog.service.util.TreePathUtils;
 
 /**
@@ -142,7 +143,7 @@ public class CategoryService {
      */
     @SuppressWarnings("unchecked")
     public List<CategoryDTO> listChildren(Long pid, CategoryDTO categoryDTO) {
-        QueryWrapper<Category> wrapper = new QueryWrapper<Category>().eq("deleted", false);
+        QueryWrapper<Category> wrapper = new MyQueryWrapper<Category>(false);
         if (pid == null) {
             wrapper.isNull("pid");
         } else {

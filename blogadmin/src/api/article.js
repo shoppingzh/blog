@@ -18,7 +18,7 @@ export function remove(id) {
 export function save(data) {
   return request({
     url: '/article',
-    method: 'post',
+    method: data.id ? 'put' : 'post',
     data
   })
 }

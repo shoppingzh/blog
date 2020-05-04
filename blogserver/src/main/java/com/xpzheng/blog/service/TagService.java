@@ -7,6 +7,7 @@ import com.xpzheng.blog.dto.PageDTO;
 import com.xpzheng.blog.dto.TagDTO;
 import com.xpzheng.blog.mapper.TagMapper;
 import com.xpzheng.blog.model.Tag;
+import com.xpzheng.blog.service.util.MyQueryWrapper;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class TagService {
      * @return
      */
     public TagDTO get(long id) {
-        return tagDTO(tagMapper.selectOne(new QueryWrapper<Tag>().eq("deleted", false).eq("id", id)));
+        return tagDTO(tagMapper.selectOne(new MyQueryWrapper<Tag>(false).id(id)));
     }
 
     /**
@@ -74,7 +75,7 @@ public class TagService {
      * @return
      */
     public TagDTO getByName(String name) {
-        QueryWrapper<Tag> wrapper = new QueryWrapper<Tag>().eq("deleted", false).eq("name", name);
+        QueryWrapper<Tag> wrapper = new MyQueryWrapper<Tag>(false).eq("name", name);
         return tagDTO(tagMapper.selectOne(wrapper));
     }
 
@@ -86,7 +87,7 @@ public class TagService {
      * @return
      */
     public PageDTO<TagDTO> page(int page, int pageSize, TagDTO tagDTO) {
-        QueryWrapper<Tag> wrapper = new QueryWrapper<Tag>().eq("deleted", false);
+        QueryWrapper<Tag> wrapper = new MyQueryWrapper<Tag>(false);
         if (tagDTO != null) {
             if (StringUtils.isNotBlank(tagDTO.getName())) {
                 wrapper.eq("name", tagDTO.getName());
@@ -94,6 +95,7 @@ public class TagService {
                 wrapper.like("name", tagDTO.getKeyword());
             }
         }
+        System.out.println(wrapper.getSqlSegment());
         IPage<Tag> p = new Page<Tag>(page, pageSize);
         tagMapper.selectPage(p, wrapper);
         return PageDTO.valueOf(p, new Function<Tag, TagDTO>() {

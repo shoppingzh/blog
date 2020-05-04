@@ -1,15 +1,15 @@
 <template>
   <div  class="app-container">
-    <category-tree></category-tree>
+    <zx-category-folder></zx-category-folder>
   </div>
 </template>
 
 <script>
-import CategoryTree from '@/components/CategoryTree'
+import ZxCategoryFolder from '@/components/CategoryFolder'
 
 export default {
   components: {
-    CategoryTree
+    ZxCategoryFolder
   }
 }
 </script>

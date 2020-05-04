@@ -2,14 +2,24 @@
   <div class="app-container">
     <div class="filter-container">
       <el-row
-        type="flex" >
+        type="flex" align="middle">
         <el-col
-          :span="24"></el-col>
+          :span="24">
+          <el-form :inline="true" @submit.native.prevent size="small">
+            <el-form-item label="标签名">
+              <el-input v-model="keyword" placeholder="请输入标签名" @keydown.enter.native="handleSearch" 
+                clearable @clear="handleSearch"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="handleSearch">查询</el-button>
+            </el-form-item>
+          </el-form>  
+        </el-col>
         <el-button
           type="primary"
           size="small"
           @click="handleAdd" >
-          <i class="el-icon-edit"></i> 添加
+          <i class="el-icon-edit"></i> 添加标签
         </el-button>
       </el-row>
     </div>
@@ -106,16 +116,17 @@ export default {
         data: []
       },
       loading: false, // 是否正在加载中
-      editingRow: null
+      editingRow: null,
+      keyword: ''
     }
   },
   mounted() {
     this.list(1)
   },
   methods: {
-    list(page) {
+    list(page, params) {
       this.loading = true
-      api.list({ page: page, pageSize: this.page.pageSize }).then((resp) => {
+      api.list(Object.assign({ page: page, pageSize: this.page.pageSize }, params)).then((resp) => {
         if (resp.success) {
           this.page = resp.data
         }
@@ -200,6 +211,11 @@ export default {
       api.save(tag).then((resp) => {
       }).catch(() => {
         this.$message({ message: '主题色更改失败', type: 'error' })
+      })
+    },
+    handleSearch() {
+      this.list(1, {
+        keyword: this.keyword
       })
     }
   }

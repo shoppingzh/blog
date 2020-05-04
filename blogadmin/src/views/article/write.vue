@@ -9,7 +9,7 @@
           v-model="article.content"
           :height="450" />
       </el-col>
-      <el-col :span="6">
+      <el-col :span="6" class="edit-right">
         <el-form label-position="top" label-suffix="：">
           <el-form-item label="标题">
             <el-input
@@ -21,16 +21,15 @@
           </el-form-item>
           <el-form-item label="标签">
             <el-select
-              v-model="tagNames"
+              v-model="selectTagIds"
               multiple
               filterable
-              allow-create
               placeholder="请选择文章标签" >
               <el-option
                 v-for="tag in tags"
-                :key="tag.name"
+                :key="tag.id"
                 :label="tag.name"
-                :value="tag.name">
+                :value="tag.id">
               </el-option>
             </el-select>
           </el-form-item>
@@ -97,29 +96,11 @@ export default {
       },
       tags: [],
       loading: false,
-      choosingCat: false
+      choosingCat: false,
+      selectTagIds: []
     }
   },
   computed: {
-    tagNames: {
-      get: function() {
-        const tags = this.article.tags
-        const names = []
-        if (tags && tags.length) {
-          for (const tag of tags) {
-            names.push(tag.name)
-          }
-        }
-        return names
-      },
-      set: function(newVal) {
-        const tags = []
-        for (const name of newVal) {
-          tags.push({ name: name })
-        }
-        this.article.tags = tags
-      }
-    }
   },
   mounted() {
     tagApi.list().then((resp) => {
@@ -132,7 +113,14 @@ export default {
     if (id) {
       api.get(id).then((resp) => {
         if (resp.success) {
-          this.article = resp.data
+          const article = resp.data
+          this.article = article
+          if (article.tags) {
+            article.tags.forEach((tag) => {
+              console.log(tag.id)
+              this.selectTagIds.push(tag.id)
+            })
+          }
         }
       })
     }
@@ -144,13 +132,21 @@ export default {
         return false
       }
 
+      const selectTagIds = this.selectTagIds
+      const selectTags = []
+      selectTagIds.forEach((selectTagId) => {
+        selectTags.push({
+          id: selectTagId
+        })
+      })
+
       this.loading = true
       api.save({
         id: this.article.id,
         title: this.article.title || '无标题文章',
         content: this.article.content,
         plainContent: this.$refs.editor.getPlainContent(),
-        tags: this.article.tags,
+        tags: selectTags,
         category: this.article.category,
         draft: draft || false
       }).then(resp => {
@@ -189,4 +185,7 @@ export default {
 <style scoped>
   .publish-area { padding: 20px 10px; }
   .other-container { padding: 10px 5px; }
+  .edit-right{
+    margin: 0 10px;
+  }
 </style>

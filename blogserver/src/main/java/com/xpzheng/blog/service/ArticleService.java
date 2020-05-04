@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +31,7 @@ import com.xpzheng.blog.model.ArticleContent;
 import com.xpzheng.blog.model.ArticleTag;
 import com.xpzheng.blog.model.Category;
 import com.xpzheng.blog.model.Tag;
+import com.xpzheng.blog.util.ArticleUtils;
 
 /**
  * @author xpzheng
@@ -55,6 +57,9 @@ public class ArticleService {
      * @return
      */
     public String add(ArticleDTO articleDTO) {
+        if (articleDTO == null) {
+            throw new IllegalArgumentException("articleDTO can not be null!");
+        }
         // 保存文章
         Article article = new Article();
         article.setTitle(articleDTO.getTitle());
@@ -64,6 +69,7 @@ public class ArticleService {
             article.setCid(Long.valueOf(category.getId()));
         }
         article.setGmtCreate(new Date());
+        article.setSummary(ArticleUtils.createSummary(articleDTO.getPlainContent()));
         articleMapper.insert(article);
 
         String id = article.getId();
@@ -111,7 +117,65 @@ public class ArticleService {
      * @return
      */
     public boolean update(ArticleDTO articleDTO) {
-        return false;
+        if (articleDTO == null) {
+            throw new IllegalArgumentException("articleDTO can not be null!");
+        }
+        Article article = new Article();
+        article.setId(articleDTO.getId());
+        article.setTitle(articleDTO.getTitle());
+        article.setDraft(articleDTO.isDraft());
+        article.setSummary(ArticleUtils.createSummary(articleDTO.getPlainContent()));
+        article.setGmtModify(new Date());
+        if (articleDTO.getCategory() != null && StringUtils.isNotBlank(articleDTO.getCategory().getId())) {
+            article.setCid(Long.valueOf(articleDTO.getCategory().getId()));
+        }
+        if (articleMapper.updateById(article) <= 0) {
+            return false;
+        }
+        List<TagDTO> tags = articleDTO.getTags();
+        if (CollectionUtils.isEmpty(tags)) {
+            articleTagMapper.delete(new QueryWrapper<ArticleTag>().eq("aid", articleDTO.getId()));
+        } else {
+            List<ArticleTag> articleTags = articleTagMapper
+                    .selectList(new QueryWrapper<ArticleTag>().eq("aid", articleDTO.getId()));
+            List<TagDTO> tmpTags = new ArrayList<>(tags);
+            // 留下需要添加的
+            tags.removeIf(new Predicate<TagDTO>() {
+                @Override
+                public boolean test(TagDTO t) {
+                    for (ArticleTag at : articleTags) {
+                        if (at.getTid().equals(Long.valueOf(t.getId()))) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
+            for (TagDTO tag : tags) {
+                ArticleTag at = new ArticleTag();
+                at.setAid(article.getId());
+                at.setTid(Long.valueOf(tag.getId()));
+                at.setGmtCreate(new Date());
+                articleTagMapper.insert(at);
+            }
+            // 留下需要去除的
+            articleTags.removeIf(new Predicate<ArticleTag>() {
+                @Override
+                public boolean test(ArticleTag at) {
+                    for (TagDTO tag : tmpTags) {
+                        if (at.getTid().equals(Long.valueOf(tag.getId()))) {
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
+            for (ArticleTag at : articleTags) {
+                articleTagMapper
+                        .delete(new QueryWrapper<ArticleTag>().eq("aid", articleDTO.getId()).eq("tid", at.getTid()));
+            }
+        }
+        return true;
     }
 
     /**

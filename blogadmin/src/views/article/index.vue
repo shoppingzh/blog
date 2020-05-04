@@ -8,7 +8,7 @@
       stripe>
       <el-table-column
         label="ID"
-        width="80"
+        width="180"
         align="center"
         prop="id">
       </el-table-column>
