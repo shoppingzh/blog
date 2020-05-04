@@ -20,7 +20,7 @@ export function children(pid) {
 export function save(data) {
   return request({
     url: '/category/' + (data.id || ''),
-    method: 'post',
+    method: data.id ? 'put' : 'post',
     data
   })
 }
