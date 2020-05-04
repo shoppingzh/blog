@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Layout from '@/layout'
 import Index from '@/views/index'
+import Article from '@/views/article'
 
 Vue.use(VueRouter)
 
@@ -15,13 +16,19 @@ const routes = [{
         path: '',
         name: 'Index',
         component: Index
+      },
+      {
+        path: '/article/:id',
+        name: 'Article',
+        component: Article
       }
     ]
   }
 ]
 
 const router = new VueRouter({
-  routes
+  routes,
+  mode: 'history'
 })
 
 export default router

@@ -10,4 +10,8 @@ body{
   background-color: #fff;
   box-shadow: 0 0 3px 0 rgba(120, 120, 120, .5),
               3px 3px 4px 0 rgba(200, 200, 200, .5);
+  padding: 0 30px;
+}
+.app-layout-content{
+  /* margin-top: 64px; */
 }

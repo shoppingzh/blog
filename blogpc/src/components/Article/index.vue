@@ -1,7 +1,7 @@
 <template>
   <div class="article">
     <div class="article__header">
-      <a href="##" class="article__title">服务端升级 Ubuntu 20.04 LTS 记录</a>
+      <a href="##" class="article__title" @click.prevent="handleRoute">服务端升级 Ubuntu 20.04 LTS 记录</a>
       <div class="article__time">
         <span><a-icon type="history" /> 2020-05-03 20:14</span>
       </div>
@@ -26,7 +26,12 @@
 
 <script>
 export default {
-  name: 'zx-article'
+  name: 'zx-article',
+  methods: {
+    handleRoute() {
+      this.$router.push('/article/123')
+    }
+  }
 }
 </script>
 
