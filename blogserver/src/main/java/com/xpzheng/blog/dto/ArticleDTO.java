@@ -27,5 +27,6 @@ public class ArticleDTO extends BaseDTO {
     private Date modifyTime;
     private List<TagDTO> tags = new ArrayList<TagDTO>();
     private CategoryDTO category;
+    private FileDTO thumbnail;
 
 }

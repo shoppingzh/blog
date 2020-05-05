@@ -4,6 +4,7 @@
     <div v-else class="article">
       <h3 style="text-align: center;">{{ article.title }}</h3>
       <div class="content-container">
+        <img v-if="article.thumbnail" :src="'http://localhost:8888/api' + article.thumbnail.refPath">
         <div v-html="article.content"></div>
       </div>
     </div>

@@ -37,6 +37,7 @@ title | varchar(1024) | "" | 是 | 文章标题
 summary | text | | 是 | 文章概要（文章的前X个字） 
 hot | smallint | 0 | 是 | 热度（该值越大热度越高）
 draft | tinyint | 1 | 是 | 是否是草稿
+thumbnail | varchar | | | 文章缩略图（引用t_file）
 deleted | tinyint | 0 | 是 | 是否软删除
 gmt_create | datetime | | 是 | 创建时间
 gmt_modify | datetime | | 否 | 最后修改时间
@@ -72,4 +73,15 @@ age | tinyint |||年龄
 deleted | tinyint |0|是|是否已删除
 gmt_create|datetime||是|创建时间
 gmt_modify|datetime|||最后修改时间
+
+## t_file 文件
+名称 | 类型 | 默认值 | 非空 | 说明
+-- | -- | -- | -- |-- 
+id | varchar | | 是 | id
+from | smallint | 0 | 是 | 来源（本地/七牛云/又拍云/...）
+filename | varchar | | 是 | 文件名
+filepath | varchar | | 是 | 文件路径
+filesize | bigint | 0 | 是 | 文件大小
+
+
 

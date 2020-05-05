@@ -14,10 +14,9 @@
       :key="cat.id"
       type="flex"
       align="middle"
-      class="category">
-      <el-col
-        :span="18"
-        @click.native="handleList(cat)">
+      class="category"
+      @click.native="handleList(cat)">
+      <el-col :span="18">
         <div>
           <i class="el-icon-menu" style="color: #E6A23C;"></i> {{ cat.name }}
         </div>
@@ -70,7 +69,9 @@ export default {
   methods: {
     handleListRoot() {
       api.children().then((resp) => {
-        this.list = resp.data
+        if (resp.success) {
+          this.list = resp.data
+        }
       })
       while (this.parents.shift());
     },
@@ -84,7 +85,9 @@ export default {
         this.parents.splice(idx + 1, this.parents.length)
       }
       api.children(cat.id).then((resp) => {
-        this.list = resp.data
+        if (resp.success) {
+          this.list = resp.data
+        }
       })
     },
     deleteCat(cat) {

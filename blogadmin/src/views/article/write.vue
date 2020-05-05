@@ -19,6 +19,22 @@
               clearable
               @focus="handleTitleFocus" />
           </el-form-item>
+          <el-form-item label="缩略图">
+            <el-upload
+              v-if="!article.thumbnail"
+              action="http://localhost:8888/api/file"
+              list-type="picture-card"
+              :multiple="false"
+              :limit="1"
+              :on-success="handleThumbnailUploaded">
+              <i slot="default" class="el-icon-plus"></i>
+            </el-upload>
+            <img
+              v-else
+              style="width: 200px; height: 150px; object-fit: contain; border: 1px solid #eee; border-radius: 4px;"
+             :src="'http://localhost:8888/api/file/' + article.thumbnail.id"
+             />
+          </el-form-item>
           <el-form-item label="标签">
             <el-select
               v-model="selectTagIds"
@@ -35,10 +51,10 @@
           </el-form-item>
           <el-form-item
             label="选择文章分类">
-            <el-link type="primary" @click="handleChooseCategory">
+            <a href="javascript:;" class="c-primary" type="primary" @click="handleChooseCategory">
               <span v-if="article.category">{{ article.category.name }} </span>
               <span v-else>清选择</span>
-            </el-link>
+            </a>
           </el-form-item>
           <el-form-item>
             <el-button
@@ -92,7 +108,8 @@ export default {
         title: '',
         content: '',
         tags: [],
-        category: null
+        category: null,
+        thumbnail: null
       },
       tags: [],
       loading: false,
@@ -126,6 +143,15 @@ export default {
     }
   },
   methods: {
+    // 缩略图上传成功
+    handleThumbnailUploaded(resp) {
+      if (resp.success) {
+        this.article.thumbnail = resp.data
+      } else {
+        this.$message(`文件上传失败`)
+      }
+    },
+    // 发布/保存草稿
     handlePublish(draft) {
       if (!this.article.content.trim()) {
         this.$message({ message: '请输入内容', type: 'error' })
@@ -148,7 +174,8 @@ export default {
         plainContent: this.$refs.editor.getPlainContent(),
         tags: selectTags,
         category: this.article.category,
-        draft: draft || false
+        draft: draft || false,
+        thumbnail: this.article.thumbnail
       }).then(resp => {
         if (resp.success) {
           this.$message({

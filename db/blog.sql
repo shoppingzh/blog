@@ -25,6 +25,7 @@ create table t_article(
 	summary varchar(1024) not null default '',
 	hot smallint not null default 0,
 	draft tinyint not null default 1,
+	thumbnail varchar(1024),
 	deleted tinyint not null default 0,
 	gmt_create datetime,
 	gmt_modify datetime,
@@ -70,3 +71,11 @@ create table t_category(
 );
 
 insert into t_category (id, name) values (1, '随笔');
+
+create table t_file(
+	id varchar(1024),
+	filefrom smallint not null,
+	filename varchar(256) not null,
+	filepath varchar(256) not null,
+	filesize bigint default 0
+);

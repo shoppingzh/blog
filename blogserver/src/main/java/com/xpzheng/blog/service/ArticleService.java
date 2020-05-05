@@ -19,6 +19,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xpzheng.blog.dto.ArticleDTO;
 import com.xpzheng.blog.dto.CategoryDTO;
+import com.xpzheng.blog.dto.FileDTO;
 import com.xpzheng.blog.dto.PageDTO;
 import com.xpzheng.blog.dto.TagDTO;
 import com.xpzheng.blog.mapper.ArticleContentMapper;
@@ -50,6 +51,8 @@ public class ArticleService {
     private CategoryMapper categoryMapper;
     @Autowired
     private TagMapper tagMapper;
+    @Autowired
+    private FileService fileService;
 
     /**
      * 添加文章
@@ -70,6 +73,10 @@ public class ArticleService {
         }
         article.setGmtCreate(new Date());
         article.setSummary(ArticleUtils.createSummary(articleDTO.getPlainContent()));
+        FileDTO thumbnail = articleDTO.getThumbnail();
+        if (thumbnail != null && StringUtils.isNoneBlank(thumbnail.getId())) {
+            article.setThumbnail(thumbnail.getId());
+        }
         articleMapper.insert(article);
 
         String id = article.getId();
@@ -128,6 +135,10 @@ public class ArticleService {
         article.setGmtModify(new Date());
         if (articleDTO.getCategory() != null && StringUtils.isNotBlank(articleDTO.getCategory().getId())) {
             article.setCid(Long.valueOf(articleDTO.getCategory().getId()));
+        }
+        FileDTO thumbnail = articleDTO.getThumbnail();
+        if (thumbnail != null && StringUtils.isNoneBlank(thumbnail.getId())) {
+            article.setThumbnail(thumbnail.getId());
         }
         if (articleMapper.updateById(article) <= 0) {
             return false;
@@ -197,7 +208,7 @@ public class ArticleService {
      * @return
      */
     public ArticleDTO get(String id) {
-        return articleDTO(articleMapper.selectById(id), true, true, true);
+        return articleDTO(articleMapper.selectById(id), true, true, true, true);
     }
 
     /**
@@ -213,7 +224,7 @@ public class ArticleService {
         return PageDTO.valueOf(p, new Function<Article, ArticleDTO>() {
             @Override
             public ArticleDTO apply(Article t) {
-                return articleDTO(t, true, true, true);
+                return articleDTO(t, true, true, true, true);
             }
         });
     }
@@ -232,7 +243,7 @@ public class ArticleService {
         return dto;
     }
 
-    private ArticleDTO articleDTO(Article article, boolean withContent, boolean withCategory, boolean withTags) {
+    private ArticleDTO articleDTO(Article article, boolean withContent, boolean withCategory, boolean withTags, boolean withThumbnail) {
         ArticleDTO dto = articleDTO(article);
         if (withContent) {
             ArticleContent articleContent = articleContentMapper.selectById(article.getId());
@@ -267,6 +278,11 @@ public class ArticleService {
                 }
             }
             dto.setTags(tags);
+        }
+        String thumbnail = article.getThumbnail();
+        if (withThumbnail && StringUtils.isNotBlank(thumbnail)) {
+            FileDTO fileDTO = fileService.get(thumbnail);
+            dto.setThumbnail(fileDTO);
         }
         return dto;
     }
