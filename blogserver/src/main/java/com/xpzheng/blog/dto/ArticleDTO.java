@@ -23,6 +23,7 @@ public class ArticleDTO extends BaseDTO {
     private String content;
     private String plainContent;
     private boolean draft;
+    private int hot;
     private Date createTime;
     private Date modifyTime;
     private List<TagDTO> tags = new ArrayList<TagDTO>();

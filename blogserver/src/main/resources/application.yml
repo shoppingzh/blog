@@ -6,6 +6,10 @@ spring:
     password: 123456
   mvc:
      dispatch-options-request: true
+  servlet:
+     multipart:
+        max-file-size: 10MB
+        max-request-size: 50MB
 mybatis:
   type-aliases-package: com.xpzheng.blog.model
   mapper-locations: classpath*:mybatis/mapper/*Mapper.xml

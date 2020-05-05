@@ -25,5 +25,6 @@ public class FileEntity {
     private String filename;
     private String filepath;
     private Long filesize;
+    private String contentType;
 
 }

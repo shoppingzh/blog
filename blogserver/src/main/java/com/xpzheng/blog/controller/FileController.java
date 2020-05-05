@@ -59,11 +59,9 @@ public class FileController extends BaseController {
             fileDTO.setFilesize(file.getSize());
             fileDTO.setFrom(FileConsts.FILE_FROM_LOCAL);
             fileDTO.setFilepath(FilePathUtils.joinPath(path, randomFileName));
-            fileDTO.setRefPath(fileDTO.getFilepath());
-
+            fileDTO.setContentType(file.getContentType());
             String result = fileService.add(fileDTO);
-            fileDTO.setId(result);
-            return result != null ? success(fileDTO) : failed();
+            return result != null ? success(result) : failed();
         } catch (IllegalStateException | IOException e) {
             e.printStackTrace();
         }
@@ -76,12 +74,15 @@ public class FileController extends BaseController {
         if (fileDTO == null) {
             return failed("文件不存在");
         }
+        // FIXME 以后使用七牛云/又拍云存储时，将请求重定向到对应的访问地址
+        if (fileDTO.getFrom() != FileConsts.FILE_FROM_LOCAL) {
+            return failed("暂不支持下载");
+        }
         File file = new File(req.getServletContext().getRealPath(""), fileDTO.getFilepath());
         if (!file.exists()) {
             return failed("文件不存在");
         }
         resp.addHeader("Content-Disposition", "attachment;filename=" + fileDTO.getFilename());
-
         try {
             IOUtils.copy(new FileInputStream(file), resp.getOutputStream());
         } catch (IOException e) {

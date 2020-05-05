@@ -18,6 +18,8 @@ public class FileDTO extends BaseDTO {
     private String filename;
     private String filepath;
     private long filesize;
+    private String contentType;
+    private short mediaType;
     // 引用路径
     private String refPath;
 

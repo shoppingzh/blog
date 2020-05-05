@@ -29,3 +29,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+## 文件上传目录
+src/main/webapp/upload

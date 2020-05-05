@@ -33,7 +33,7 @@
         align="center"
         :width="100">
           <template slot-scope="scope">
-            {{ scope.row.category ? scope.row.category.name : '无' }}
+            {{ scope.row.category ? scope.row.category.name : '' }}
           </template>
       </el-table-column>
       <el-table-column
@@ -42,6 +42,7 @@
         :min-width="80">
         <template slot-scope="scope">
           <el-row
+            v-if="scope.row.tags.length"
             type="flex"
             justify="center"
             :style="{ flexWrap: 'wrap' }">
@@ -53,12 +54,19 @@
         </template>
       </el-table-column>
       <el-table-column
-        label="状态"
+        label="已发布"
         width="70"
         align="center">
         <template slot-scope="scope">
-          <i  v-if="!scope.row.draft" class="el-icon-check" style="color: #0f0;"></i>
-          <i v-else class="el-icon-s-promotion"></i>
+          <i  v-if="!scope.row.draft" class="el-icon-check c-primary"></i>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="热度"
+        width="70"
+        align="center">
+        <template slot-scope="scope">
+          {{ scope.row.hot }}
         </template>
       </el-table-column>
       <el-table-column>
@@ -83,12 +91,12 @@
             size="mini"
             type="primary"
             @click="edit(scope)">
-            编辑
+            <i class="el-icon-edit"></i>
           </el-button>
           <el-button
             size="mini"
             type="danger"
-            @click="remove(scope)">删除
+            @click="remove(scope)"><i class="el-icon-delete"></i>
           </el-button>
         </template>
       </el-table-column>

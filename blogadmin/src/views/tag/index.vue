@@ -58,19 +58,20 @@
       </el-table-column>
       <el-table-column
         label="操作"
-        align="center">
+        align="center"
+        :width="200">
         <template slot-scope="scope">
           <div v-if="editingRow === null || editingRow.id !== scope.row.id">
             <el-button
               type="primary"
               size="mini"
               @click="handleStartEdit(scope.row)" >
-              编辑
+              <i class="el-icon-edit"></i>
             </el-button>
             <el-button
               type="danger"
               size="mini"
-              @click="handleRemove(scope)" > 删除
+              @click="handleRemove(scope)" > <i class="el-icon-delete"></i>
             </el-button>
           </div>
           <div v-else>

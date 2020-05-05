@@ -77,5 +77,6 @@ create table t_file(
 	filefrom smallint not null,
 	filename varchar(256) not null,
 	filepath varchar(256) not null,
-	filesize bigint default 0
+	filesize bigint default 0,
+	content_type varchar(64)
 );

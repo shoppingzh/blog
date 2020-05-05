@@ -22,6 +22,7 @@ public class Article extends BaseModel {
     private Long cid;
     private String title;
     private String summary;
+    private Integer hot;
     private Boolean draft;
     private String thumbnail;
 

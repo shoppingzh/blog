@@ -146,7 +146,9 @@ export default {
     // 缩略图上传成功
     handleThumbnailUploaded(resp) {
       if (resp.success) {
-        this.article.thumbnail = resp.data
+        this.article.thumbnail = {
+          id: resp.data
+        }
       } else {
         this.$message(`文件上传失败`)
       }

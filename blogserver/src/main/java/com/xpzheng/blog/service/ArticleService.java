@@ -67,6 +67,7 @@ public class ArticleService {
         Article article = new Article();
         article.setTitle(articleDTO.getTitle());
         article.setDraft(articleDTO.isDraft());
+        article.setHot(articleDTO.getHot());
         CategoryDTO category = articleDTO.getCategory();
         if (category != null && StringUtils.isNotBlank(category.getId())) {
             article.setCid(Long.valueOf(category.getId()));
@@ -131,6 +132,7 @@ public class ArticleService {
         article.setId(articleDTO.getId());
         article.setTitle(articleDTO.getTitle());
         article.setDraft(articleDTO.isDraft());
+        article.setHot(articleDTO.getHot());
         article.setSummary(ArticleUtils.createSummary(articleDTO.getPlainContent()));
         article.setGmtModify(new Date());
         if (articleDTO.getCategory() != null && StringUtils.isNotBlank(articleDTO.getCategory().getId())) {
@@ -238,6 +240,7 @@ public class ArticleService {
         dto.setTitle(article.getTitle());
         dto.setSummary(article.getSummary());
         dto.setDraft(article.getDraft());
+        dto.setHot(article.getHot());
         dto.setCreateTime(article.getGmtCreate());
         dto.setModifyTime(article.getGmtModify());
         return dto;

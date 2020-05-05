@@ -82,6 +82,7 @@ from | smallint | 0 | 是 | 来源（本地/七牛云/又拍云/...）
 filename | varchar | | 是 | 文件名
 filepath | varchar | | 是 | 文件路径
 filesize | bigint | 0 | 是 | 文件大小
+content_type | varchar | | | 文件的MIME类型
 
 
 

@@ -32,6 +32,7 @@ public class FileService {
         file.setFilename(fileDTO.getFilename());
         file.setFilepath(fileDTO.getFilepath());
         file.setFilesize(fileDTO.getFilesize());
+        file.setContentType(fileDTO.getContentType());
         fileMapper.insert(file);
         return file.getId();
     }
@@ -64,12 +65,22 @@ public class FileService {
         fileDTO.setFilename(file.getFilename());
         fileDTO.setFilepath(file.getFilepath());
         fileDTO.setFilesize(file.getFilesize());
+        fileDTO.setContentType(file.getContentType());
         switch (file.getFilefrom()) {
         case FileConsts.FILE_FROM_LOCAL:
             fileDTO.setRefPath(file.getFilepath());
             break;
         default:
             break;
+        }
+        if (file.getContentType() != null) {
+            if (file.getContentType().matches("^image/.+$")) {
+                fileDTO.setMediaType(FileConsts.MEDIA_TYPE_IMAGE);
+            } else if (file.getContentType().matches("^video/.+$")) {
+                fileDTO.setMediaType(FileConsts.MEDIA_TYPE_VIDEO);
+            } else if (file.getContentType().matches("^audio/.+$")) {
+                fileDTO.setMediaType(FileConsts.MEDIA_TYPE_AUDIO);
+            }
         }
         return fileDTO;
     }
