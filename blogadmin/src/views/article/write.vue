@@ -50,11 +50,14 @@
             </el-select>
           </el-form-item>
           <el-form-item
-            label="选择文章分类">
+            label="分类">
             <a href="javascript:;" class="c-primary" type="primary" @click="handleChooseCategory">
               <span v-if="article.category">{{ article.category.name }} </span>
               <span v-else>清选择</span>
             </a>
+          </el-form-item>
+          <el-form-item label="热度">
+            <el-slider v-model="article.hot"></el-slider>
           </el-form-item>
           <el-form-item>
             <el-button
@@ -174,6 +177,7 @@ export default {
         title: this.article.title || '无标题文章',
         content: this.article.content,
         plainContent: this.$refs.editor.getPlainContent(),
+        hot: this.article.hot,
         tags: selectTags,
         category: this.article.category,
         draft: draft || false,

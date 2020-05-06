@@ -2,19 +2,28 @@
   <div>
     <div v-if="article == null"></div>
     <div v-else class="article">
-      <h3 style="text-align: center;">{{ article.title }}</h3>
-      <div class="content-container">
-        <img v-if="article.thumbnail" :src="'http://localhost:8888/api' + article.thumbnail.refPath">
-        <div v-html="article.content"></div>
+      <div class="article__title">
+        {{ article.title }}
       </div>
+      <div class="article__tags">
+        <article-tag
+          v-for="tag in article.tags"
+          :key="tag.id"
+          :tag="tag"/>
+      </div>
+      <div class="article__content" v-html="article.content"></div>
     </div>
   </div>
 </template>
 
 <script>
+import ArticleTag from '@/components/ArticleTag'
 import { get } from '@/api/article'
 
 export default {
+  components: {
+    ArticleTag
+  },
   props: {
     id: {
       type: String,
@@ -38,5 +47,23 @@ export default {
 </script>
 
 <style scoped>
-  .article .content-container{ padding: 0 30px; word-break: break-all; }
+  .article{
+    padding: 30px;
+  }
+  .article__title{
+    color: #303133;
+    font-size: 30px;
+
+  }
+  .article__content{
+    margin-top: 15px;
+    color: #606266;
+  }
+  .article__tags{
+    padding: 5px 0;
+  }
+  .article__tags .tag{
+    height: 25px;
+    line-height: 25px;
+  }
 </style>

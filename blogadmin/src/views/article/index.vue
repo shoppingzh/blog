@@ -15,7 +15,7 @@
       <el-table-column
         label="标题">
         <template slot-scope="scope">
-          <el-link type="primary" @click="handleView(scope.row)">{{ scope.row.title }}</el-link>
+          <a href="javascript:;" class="c-primary" type="primary" @click="handleView(scope.row)">{{ scope.row.title }}</a>
         </template>
       </el-table-column>
       <el-table-column

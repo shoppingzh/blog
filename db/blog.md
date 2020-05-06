@@ -74,6 +74,8 @@ deleted | tinyint |0|是|是否已删除
 gmt_create|datetime||是|创建时间
 gmt_modify|datetime|||最后修改时间
 
+
+
 ## t_file 文件
 名称 | 类型 | 默认值 | 非空 | 说明
 -- | -- | -- | -- |-- 
@@ -86,3 +88,9 @@ content_type | varchar | | | 文件的MIME类型
 
 
 
+## t_article_log
+名称 | 类型 | 默认值 | 非空 | 说明
+-- | -- | -- | -- | --
+aid | varchar | | 是 | 文章id
+ip | varchar | | 是 | 访问者ip
+gmt_create | datetime | | 是 | 访问时间

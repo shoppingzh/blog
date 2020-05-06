@@ -19,5 +19,10 @@ export default {
 </script>
 
 <style scoped>
-  .tag { margin-right: 5px; margin-bottom: 5px; border: none; color: #fff; }
+  .tag {
+    margin-right: 5px;
+    margin-bottom: 5px;
+    border: none;
+    color: #fff;
+  }
 </style>
