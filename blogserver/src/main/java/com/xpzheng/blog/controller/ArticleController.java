@@ -39,6 +39,7 @@ public class ArticleController extends BaseController {
 
     @PutMapping
     public AjaxResult update(@RequestBody ArticleDTO articleDTO) {
+        System.out.println(articleDTO);
         boolean result = articleService.update(articleDTO);
         return result ? success() : failed();
     }

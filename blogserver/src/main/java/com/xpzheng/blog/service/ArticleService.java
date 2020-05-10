@@ -193,6 +193,14 @@ public class ArticleService {
                         .delete(new QueryWrapper<ArticleTag>().eq("aid", articleDTO.getId()).eq("tid", at.getTid()));
             }
         }
+        
+        if (StringUtils.isNotBlank(articleDTO.getContent())) {
+            ArticleContent articleContent = new ArticleContent();
+            articleContent.setAid(articleDTO.getId());
+            articleContent.setContent(articleDTO.getContent());
+            articleContent.setPlainContent(articleDTO.getPlainContent());
+            articleContentMapper.updateById(articleContent);
+        }
         return true;
     }
 
