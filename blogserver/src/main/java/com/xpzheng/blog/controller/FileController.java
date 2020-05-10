@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.xpzheng.blog.constant.FileConsts;
-import com.xpzheng.blog.controller.util.AjaxResult;
+import com.xpzheng.blog.controller.data.AjaxResult;
 import com.xpzheng.blog.dto.FileDTO;
 import com.xpzheng.blog.service.FileService;
 import com.xpzheng.blog.util.FilePathUtils;
@@ -82,7 +82,7 @@ public class FileController extends BaseController {
         if (!file.exists()) {
             return failed("文件不存在");
         }
-        resp.addHeader("Content-Disposition", "attachment;filename=" + fileDTO.getFilename());
+//        resp.addHeader("Content-Disposition", "attachment;filename=" + fileDTO.getFilename());
         try {
             IOUtils.copy(new FileInputStream(file), resp.getOutputStream());
         } catch (IOException e) {

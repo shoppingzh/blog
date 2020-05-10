@@ -1,25 +1,28 @@
 spring:
-  datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: xpzheng
-    password: 123456
-  mvc:
-     dispatch-options-request: true
-  servlet:
-     multipart:
-        max-file-size: 10MB
-        max-request-size: 50MB
+   datasource:
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/blog?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      username: xpzheng
+      password: 123456
+   mvc:
+      dispatch-options-request: true
+   servlet:
+      multipart:
+         max-file-size: 10MB
+         max-request-size: 50MB
 mybatis:
-  type-aliases-package: com.xpzheng.blog.model
-  mapper-locations: classpath*:mybatis/mapper/*Mapper.xml
+   
+mybatis-plus:
+   config-location: classpath:mybatis/mybatis-config.xml
+   type-aliases-package: com.xpzheng.blog.model
+   mapper-locations: classpath*:mybatis/mapper/*Mapper.xml
 debug: true
 server:
-  port: 8888
-  servlet:
+   port: 8888
+   servlet:
       context-path: /api
 logging:
-  level:
-    root: warn
-    com:
-      xpzheng: warn
+   level:
+      root: warn
+      com:
+         xpzheng: warn

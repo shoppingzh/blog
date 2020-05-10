@@ -5,7 +5,10 @@ package com.xpzheng.blog.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -31,8 +34,10 @@ import com.xpzheng.blog.model.Article;
 import com.xpzheng.blog.model.ArticleContent;
 import com.xpzheng.blog.model.ArticleTag;
 import com.xpzheng.blog.model.Category;
+import com.xpzheng.blog.model.Stat;
 import com.xpzheng.blog.model.Tag;
 import com.xpzheng.blog.util.ArticleUtils;
+import com.xpzheng.blog.util.DateUtils;
 
 /**
  * @author xpzheng
@@ -229,6 +234,26 @@ public class ArticleService {
                 return articleDTO(t, true, true, true, true);
             }
         });
+    }
+    
+    /**
+     * 按照天统计每天的文章数
+     * @return
+     */
+    public Map<Date, Long> statWithDay(Date month) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        if (month != null) {
+            Date beginTime = DateUtils.getBeginTime(DateUtils.getFirstDay(month));
+            Date endTime = DateUtils.getEndTime(DateUtils.getLastDay(month));
+            params.put("beginTime", beginTime);
+            params.put("endTime", endTime);
+        }
+        List<Stat<Date>> list = articleMapper.statDay(params);
+        Map<Date, Long> stat = new LinkedHashMap<Date, Long>();
+        for (Stat<Date> item : list) {
+            stat.put(item.getGroup(), item.getCount());
+        }
+        return stat;
     }
 
     private ArticleDTO articleDTO(Article article) {

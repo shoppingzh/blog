@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 public class ArticleUtils {
 
     private static final String DEFAULT_CHARSET = "UTF-8";
-    public static final int DEFAULT_SUMMARY_WORDS = 30;
+    public static final int DEFAULT_SUMMARY_WORDS = 200;
 
     /**
      * 截取内容获得{@link #DEFAULT_SUMMARY_WORDS}字的摘要

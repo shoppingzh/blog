@@ -1,6 +1,6 @@
 package com.xpzheng.blog.controller;
 
-import com.xpzheng.blog.controller.util.AjaxResult;
+import com.xpzheng.blog.controller.data.AjaxResult;
 import com.xpzheng.blog.dto.TagDTO;
 import com.xpzheng.blog.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +15,7 @@ public class TagController extends BaseController {
 
     @GetMapping
     public AjaxResult page(@RequestParam(defaultValue = DEFAULT_PAGE) 
-    Integer page, @RequestParam(defaultValue = DEFAULT_PAGESIZE) Integer pageSize,
-            @RequestParam(required = false) TagDTO tag,
-            String keyword) {
+    Integer page, @RequestParam(defaultValue = DEFAULT_PAGESIZE) Integer pageSize, String keyword) {
         TagDTO tagDTO = new TagDTO();
         tagDTO.setKeyword(keyword);
         return success(tagService.page(page, pageSize, tagDTO));

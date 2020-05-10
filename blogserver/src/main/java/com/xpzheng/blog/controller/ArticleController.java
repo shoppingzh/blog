@@ -3,6 +3,8 @@
  */
 package com.xpzheng.blog.controller;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,10 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xpzheng.blog.controller.util.AjaxResult;
 import com.xpzheng.blog.service.ArticleService;
+import com.xpzheng.blog.controller.data.AjaxResult;
 import com.xpzheng.blog.dto.ArticleDTO;
 
 /**
@@ -33,7 +36,7 @@ public class ArticleController extends BaseController {
         String result = articleService.add(articleDTO);
         return result != null ? success(result) : failed();
     }
-    
+
     @PutMapping
     public AjaxResult update(@RequestBody ArticleDTO articleDTO) {
         boolean result = articleService.update(articleDTO);
@@ -58,8 +61,14 @@ public class ArticleController extends BaseController {
     }
 
     @GetMapping
-    public AjaxResult page(Integer page, Integer pageSize) {
+    public AjaxResult page(@RequestParam(defaultValue = DEFAULT_PAGE) Integer page,
+            @RequestParam(defaultValue = DEFAULT_PAGESIZE) Integer pageSize) {
         return success(articleService.page(page, pageSize, null));
+    }
+
+    @GetMapping("stat/day")
+    public AjaxResult statWithDay() {
+        return success(articleService.statWithDay(new Date()));
     }
 
 }

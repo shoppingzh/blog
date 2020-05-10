@@ -95,7 +95,6 @@ public class TagService {
                 wrapper.like("name", tagDTO.getKeyword());
             }
         }
-        System.out.println(wrapper.getSqlSegment());
         IPage<Tag> p = new Page<Tag>(page, pageSize);
         tagMapper.selectPage(p, wrapper);
         return PageDTO.valueOf(p, new Function<Tag, TagDTO>() {

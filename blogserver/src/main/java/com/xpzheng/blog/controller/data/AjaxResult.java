@@ -1,4 +1,4 @@
-package com.xpzheng.blog.controller.util;
+package com.xpzheng.blog.controller.data;
 
 public class AjaxResult {
 

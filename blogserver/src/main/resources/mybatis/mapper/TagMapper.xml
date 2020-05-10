@@ -21,5 +21,4 @@
     <sql id="noIdCols">
         name, theme, deleted, gmt_create, gmt_modify
     </sql>
-
 </mapper>

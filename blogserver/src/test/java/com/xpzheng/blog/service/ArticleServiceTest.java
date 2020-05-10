@@ -4,6 +4,7 @@
 package com.xpzheng.blog.service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -56,6 +57,11 @@ public class ArticleServiceTest {
     public void page() {
         PageDTO<ArticleDTO> page = articleService.page(1, -1, null);
         System.out.println(page);
+    }
+    
+    @Test
+    public void statWithDay() {
+        System.out.println(articleService.statWithDay(new Date()));
     }
 
 }

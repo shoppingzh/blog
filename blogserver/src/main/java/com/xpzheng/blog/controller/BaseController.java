@@ -3,7 +3,7 @@
  */
 package com.xpzheng.blog.controller;
 
-import com.xpzheng.blog.controller.util.AjaxResult;
+import com.xpzheng.blog.controller.data.AjaxResult;
 
 /**
  * @author xpzheng
@@ -12,7 +12,7 @@ import com.xpzheng.blog.controller.util.AjaxResult;
 public abstract class BaseController {
     
     protected static final String DEFAULT_PAGE = "1";
-    protected static final String DEFAULT_PAGESIZE = "-1";
+    protected static final String DEFAULT_PAGESIZE = "10";
 
     /**
      * Ajax success
