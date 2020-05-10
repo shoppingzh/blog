@@ -4,10 +4,10 @@
       type="flex"
       :gutter="20">
       <el-col :span="18">
-        <tinymce
+        <zx-markdown-editor
           ref="editor"
           v-model="article.content"
-          :height="450" />
+          :height="600"></zx-markdown-editor>
       </el-col>
       <el-col :span="6" class="edit-right">
         <el-form label-position="top" label-suffix="：">
@@ -94,14 +94,14 @@
 </template>
 
 <script>
-import tinymce from '@/components/Tinymce'
+import ZxMarkdownEditor from '@/components/MarkdownEditor'
 import CategoryTree from '@/components/CategoryTree'
 import * as api from '@/api/article'
 import * as tagApi from '@/api/tag'
 
 export default {
   components: {
-    tinymce,
+    ZxMarkdownEditor,
     CategoryTree
   },
   data() {
@@ -175,7 +175,7 @@ export default {
       api.save({
         id: this.article.id,
         title: this.article.title || '无标题文章',
-        content: this.article.content,
+        content: this.$refs.editor.getContent(),
         plainContent: this.$refs.editor.getPlainContent(),
         hot: this.article.hot,
         tags: selectTags,
@@ -188,7 +188,7 @@ export default {
             message: `${draft ? '保存' : '发表'}成功！`,
             type: 'success'
           })
-          this.$router.back()
+          this.$router.push('/article')
         }
         this.loading = false
       }).catch(() => {
