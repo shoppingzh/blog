@@ -15,3 +15,7 @@ body{
 .app-layout-content{
   /* margin-top: 64px; */
 }
+
+.app-navbar{
+  border-bottom: none;
+}
