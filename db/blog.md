@@ -2,7 +2,7 @@
 
 
 
-## t_tag
+## t_tag  标签
 名称 | 类型 | 默认值 | 非空 | 说明
 -- | -- | -- | -- |-- 
 id | bigint | | 是 | 主键
@@ -14,7 +14,7 @@ gmt_modify | datetime | | 是 | 最后修改时间
 
 
 
-## t_category
+## t_category  分类(支持子分类)
 名称 | 类型 | 默认值 | 非空 | 说明
 -- | -- | -- | -- |-- 
 id | bigint | | 是 | 主键
@@ -27,7 +27,7 @@ gmt_modify | datetime | | 否 | 最后修改日期
 
 
 
-## t_article
+## t_article  文章
 名称 | 类型 | 默认值 | 非空 | 说明
 -- | -- | -- | -- |-- 
 id | varchar | | 是 | 主键
@@ -44,7 +44,7 @@ gmt_modify | datetime | | 否 | 最后修改时间
 
 
 
-## t_article_content
+## t_article_content  文章内容
 名称 | 类型 | 默认值 | 非空 | 说明
 -- | -- | -- | -- |-- 
 aid | varchar | | 是 | 文章id
@@ -53,7 +53,7 @@ plain_content | text | | 是 | 纯文本内容
 
 
 
-## t_article_tag
+## t_article_tag  文章-标签关联表
 名称 | 类型 | 默认值 | 非空 | 说明
 -- | -- | -- | -- |-- 
 aid | varchar | | 是 | 文章ID
@@ -62,7 +62,7 @@ gmt_create | datetime | | 是 | 创建时间
 
 
 
-## t_user
+## t_user 用户
 名称 | 类型 | 默认值 | 非空 | 说明
 -- | -- | -- | -- |-- 
 id | varchar | | 是 |  主键，使用UUID等算法生成的唯一标识符，而不是自增的数值，因为这样很容易猜出来用户id
@@ -88,9 +88,19 @@ content_type | varchar | | | 文件的MIME类型
 
 
 
-## t_article_log
+## t_article_log  文章访问日志
 名称 | 类型 | 默认值 | 非空 | 说明
 -- | -- | -- | -- | --
 aid | varchar | | 是 | 文章id
 ip | varchar | | 是 | 访问者ip
 gmt_create | datetime | | 是 | 访问时间
+
+
+
+## t_leave_msg  留言
+名称 | 类型 | 默认值 | 非空 | 说明
+-- | -- | -- | -- | --
+id | bigint | | 是 | id
+content | varchar(256) | | 是 | 留言内容
+gmt_create | datetime | | 是 | 留言时间
+deleted | tinyint | 0 | 是 | 是否已删除
