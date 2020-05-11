@@ -19,3 +19,7 @@ body{
 .app-navbar{
   border-bottom: none;
 }
+
+img{
+  cursor: pointer;
+}

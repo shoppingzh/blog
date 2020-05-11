@@ -22,7 +22,7 @@
     <a-layout-content class="app-layout-content">
       <a-row>
         <a-col :xs="24" :md="24" :xl="{span: 18, offset: 3}">
-          <router-view style="margin: auto;" />
+          <router-view/>
         </a-col>
       </a-row>
     </a-layout-content>

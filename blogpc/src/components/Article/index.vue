@@ -1,5 +1,5 @@
 <template>
-  <div class="article">
+  <div class="article" :class="article.thumbnail ? 'article--media' : ''">
     <div class="article__header">
       <a href="##" class="article__title" @click.prevent="handleRoute">
         {{ article.title }}
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     handleRoute() {
-      this.$router.push('/article/123')
+      this.$router.push(`/a/${this.article.id}`)
     }
   }
 }
@@ -43,6 +43,8 @@ export default {
     border-radius: 4px;
     position: relative;
     overflow: hidden;
+  }
+  .article--media{
     padding-right: 260px;
   }
   .article__header{

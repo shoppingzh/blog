@@ -18,9 +18,11 @@ const routes = [{
         component: Index
       },
       {
-        path: '/article/:id',
+        path: '/a/:id',
+        alias: '/article/:id',
         name: 'Article',
-        component: Article
+        component: Article,
+        props: true
       }
     ]
   }

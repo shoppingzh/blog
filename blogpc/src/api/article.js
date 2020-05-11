@@ -16,3 +16,10 @@ export function statWithDay() {
   })
 }
 
+export function get(id) {
+  return http.request({
+    url: '/article/' + id,
+    method: 'get'
+  })
+}
+
