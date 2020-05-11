@@ -71,7 +71,7 @@ public class ArticleService {
         // 保存文章
         Article article = new Article();
         article.setTitle(articleDTO.getTitle());
-        article.setDraft(articleDTO.isDraft());
+        article.setDraft(articleDTO.getDraft());
         article.setHot(articleDTO.getHot());
         CategoryDTO category = articleDTO.getCategory();
         if (category != null && StringUtils.isNotBlank(category.getId())) {
@@ -136,7 +136,7 @@ public class ArticleService {
         Article article = new Article();
         article.setId(articleDTO.getId());
         article.setTitle(articleDTO.getTitle());
-        article.setDraft(articleDTO.isDraft());
+        article.setDraft(articleDTO.getDraft());
         article.setHot(articleDTO.getHot());
         article.setSummary(ArticleUtils.createSummary(articleDTO.getPlainContent()));
         article.setGmtModify(new Date());
@@ -193,7 +193,7 @@ public class ArticleService {
                         .delete(new QueryWrapper<ArticleTag>().eq("aid", articleDTO.getId()).eq("tid", at.getTid()));
             }
         }
-        
+
         if (StringUtils.isNotBlank(articleDTO.getContent())) {
             ArticleContent articleContent = new ArticleContent();
             articleContent.setAid(articleDTO.getId());
@@ -243,7 +243,7 @@ public class ArticleService {
             }
         });
     }
-    
+
     /**
      * 按照天统计每天的文章数
      * @return
@@ -279,7 +279,8 @@ public class ArticleService {
         return dto;
     }
 
-    private ArticleDTO articleDTO(Article article, boolean withContent, boolean withCategory, boolean withTags, boolean withThumbnail) {
+    private ArticleDTO articleDTO(Article article, boolean withContent, boolean withCategory, boolean withTags,
+            boolean withThumbnail) {
         ArticleDTO dto = articleDTO(article);
         if (withContent) {
             ArticleContent articleContent = articleContentMapper.selectById(article.getId());
