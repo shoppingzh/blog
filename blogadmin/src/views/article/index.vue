@@ -13,21 +13,24 @@
         prop="id">
       </el-table-column>
       <el-table-column
-        label="标题">
+        label="标题"
+        :width="200">
         <template slot-scope="scope">
-          <a href="javascript:;" class="c-primary" type="primary" @click="handleView(scope.row)">{{ scope.row.title }}</a>
+          <a href="javascript:;" class="article-title">{{ scope.row.title }}</a>
         </template>
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         label="摘要"
         prop="summary"
-      />
-      <!-- <el-table-column
-        label="发表日期">
+      /> -->
+      <el-table-column
+        label="发表日期"
+        header-align="center"
+        width="240">
         <template slot-scope="scope">
-          {{ scope.row.createTime }}
+          <div style="text-align: center;">{{ scope.row.createTime }}</div>
         </template>
-      </el-table-column> -->
+      </el-table-column>
       <el-table-column
         label="分类"
         align="center"
@@ -69,7 +72,8 @@
           {{ scope.row.hot }}
         </template>
       </el-table-column>
-      <el-table-column>
+      <el-table-column
+        width="200">
         <template slot="header">
           <div>
             操作
@@ -128,7 +132,7 @@ export default {
     return {
       page: {
         page: 1,
-        pageSize: 5,
+        pageSize: 15,
         total: 0,
         data: []
       },
@@ -197,5 +201,5 @@ export default {
 }
 </script>
 
-<style>
+<style scope lang="scss">
 </style>

@@ -21,19 +21,18 @@
           </el-form-item>
           <el-form-item label="缩略图">
             <el-upload
-              v-if="!article.thumbnail"
               action="http://localhost:8888/api/file"
               list-type="picture-card"
               :multiple="false"
               :limit="1"
               :on-success="handleThumbnailUploaded">
-              <i slot="default" class="el-icon-plus"></i>
+              <i slot="trigger" class="el-icon-plus"></i>
+              <!-- <img
+                v-else
+                style="width: 200px; height: 150px; object-fit: contain; border: 1px solid #eee; border-radius: 4px;"
+              :src="'http://localhost:8888/api/file/' + article.thumbnail.id"
+              /> -->
             </el-upload>
-            <img
-              v-else
-              style="width: 200px; height: 150px; object-fit: contain; border: 1px solid #eee; border-radius: 4px;"
-             :src="'http://localhost:8888/api/file/' + article.thumbnail.id"
-             />
           </el-form-item>
           <el-form-item label="标签">
             <el-select
@@ -123,7 +122,9 @@ export default {
   computed: {
   },
   mounted() {
-    tagApi.list().then((resp) => {
+    tagApi.list({
+      pageSize: -1
+    }).then((resp) => {
       if (resp.success) {
         this.tags = resp.data.data
       }
